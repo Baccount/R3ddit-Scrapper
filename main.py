@@ -5,12 +5,36 @@ import praw
 import configparser
 import concurrent.futures
 import argparse
-CLIENT_ID = os.environ.get('CLIENT_ID')
-CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 
 
-# export CLIENT_ID=value
-# export CLIENT_SECRET=value
+# read config file and set variables
+def read_config():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    global client_id
+    global client_secret
+    global user_agent
+    client_id = config['Reddit']['client_id']
+    client_secret = config['Reddit']['client_secret']
+    user_agent = config['Reddit']['user_agent']
+    print('client_id: ' + client_id)
+    print('client_secret: ' + client_secret)
+    print('user_agent: ' + user_agent)
+
+# create cofig file
+def create_config():
+    if not os.path.isfile('config.ini'):
+        config = configparser.ConfigParser()
+        config.add_section('Reddit')
+        config.set('Reddit', 'client_id', input('Enter your client_id: '))
+        config.set('Reddit', 'client_secret', input('Enter your client_secret: '))
+        config.set('Reddit', 'user_agent',
+                'Multithreaded Reddit Image Downloader v2.0 (by u/impshum)')
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
+
+
+
 
 
 
@@ -24,9 +48,9 @@ class redditImageScraper:
         self.order = order
         self.nsfw = nsfw
         self.path = f'images/{self.sub}/'
-        self.reddit = praw.Reddit(client_id=CLIENT_ID,
-                                  client_secret=CLIENT_SECRET,
-                                  user_agent='Multithreaded Reddit Image Downloader v2.0 (by u/impshum)')
+        self.reddit = praw.Reddit(client_id=client_id,
+                                  client_secret=client_secret,
+                                  user_agent=user_agent)
 
     def download(self, image):
         r = requests.get(image['url'])
@@ -64,11 +88,13 @@ class redditImageScraper:
 
 
 def main():
-    sub = 'pics'
-    limit = 10
-    order = 'hot'
-    scraper = redditImageScraper(sub, limit, order)
-    scraper.start()
+    create_config()
+    read_config()
+    # sub = 'pics'
+    # limit = 10
+    # order = 'hot'
+    # scraper = redditImageScraper(sub, limit, order)
+    # scraper.start()
 
 
 if __name__ == '__main__':
