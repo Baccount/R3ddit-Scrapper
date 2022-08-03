@@ -15,8 +15,14 @@ def create_config():
         config.add_section('Reddit')
         config.set('Reddit', 'client_id', input('Enter your client_id: '))
         config.set('Reddit', 'client_secret', input('Enter your client_secret: '))
-        config.set('Reddit', 'user_agent',
-                'Multithreaded Reddit Image Downloader')
+        nsfw = input('NSFW True or False?: ')
+        if nsfw.lower() == 'True':
+            config.set('Reddit', 'nsfw', 'True')
+        else:
+            config.set('Reddit', 'nsfw', 'False')
+            
+        config.set('Reddit', 'NSFW', nsfw)
+        config.set('Reddit', 'user_agent', 'Multithreaded Reddit Image Downloader')
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 
@@ -33,11 +39,16 @@ class redditImageScraper:
         self.sub = sub
         self.limit = limit
         self.order = order
-        self.nsfw = nsfw
         self.path = f'images/{self.sub}/'
         client_id = config['Reddit']['client_id']
         client_secret = config['Reddit']['client_secret']
         user_agent = config['Reddit']['user_agent']
+        self.nsfw = config['Reddit']['NSFW']
+        if self.nsfw == 'True':
+            self.nsfw = True
+        else:
+            self.nsfw = False
+        
         
         
         self.reddit = praw.Reddit(client_id=client_id,
@@ -73,6 +84,7 @@ class redditImageScraper:
             if len(images):
                 if not os.path.exists(self.path):
                     os.makedirs(self.path)
+                print(f'Downloading {len(images)} images...')
                 with concurrent.futures.ThreadPoolExecutor() as ptolemy:
                     ptolemy.map(self.download, images)
         except Exception as e:
