@@ -7,29 +7,16 @@ import concurrent.futures
 import argparse
 
 
-# read config file and set variables
-def read_config():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    global client_id
-    global client_secret
-    global user_agent
-    client_id = config['Reddit']['client_id']
-    client_secret = config['Reddit']['client_secret']
-    user_agent = config['Reddit']['user_agent']
-    print('client_id: ' + client_id)
-    print('client_secret: ' + client_secret)
-    print('user_agent: ' + user_agent)
-
-# create cofig file
+# create config file
 def create_config():
+    # check if config file exists
     if not os.path.isfile('config.ini'):
         config = configparser.ConfigParser()
         config.add_section('Reddit')
         config.set('Reddit', 'client_id', input('Enter your client_id: '))
         config.set('Reddit', 'client_secret', input('Enter your client_secret: '))
         config.set('Reddit', 'user_agent',
-                'Multithreaded Reddit Image Downloader v2.0 (by u/impshum)')
+                'Multithreaded Reddit Image Downloader')
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 
@@ -42,15 +29,20 @@ def create_config():
 class redditImageScraper:
     def __init__(self, sub, limit, order, nsfw=False):
         config = configparser.ConfigParser()
-        config.read('conf.ini')
+        config.read('config.ini')
         self.sub = sub
         self.limit = limit
         self.order = order
         self.nsfw = nsfw
         self.path = f'images/{self.sub}/'
+        client_id = config['Reddit']['client_id']
+        client_secret = config['Reddit']['client_secret']
+        user_agent = config['Reddit']['user_agent']
+        
+        
         self.reddit = praw.Reddit(client_id=client_id,
-                                  client_secret=client_secret,
-                                  user_agent=user_agent)
+                                    client_secret=client_secret,
+                                    user_agent=user_agent)
 
     def download(self, image):
         r = requests.get(image['url'])
@@ -89,13 +81,17 @@ class redditImageScraper:
 
 def main():
     create_config()
-    read_config()
-    # sub = 'pics'
-    # limit = 10
-    # order = 'hot'
-    # scraper = redditImageScraper(sub, limit, order)
-    # scraper.start()
+    sub = input('Enter subreddit: ')
+    limit = int(input('Number of photos: '))
+    order = input('Order (hot, top, new): ')
+    scraper = redditImageScraper(sub, limit, order)
+    scraper.start()
 
 
 if __name__ == '__main__':
-    main()
+    # catch keyboard interrupt
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('\nExiting...')
+        exit()
