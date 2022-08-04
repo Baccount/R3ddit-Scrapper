@@ -7,9 +7,8 @@ import praw
 import requests
 
 
-# create config file
 def create_config():
-    # check if config file exists
+    '''Create config file if it doesn't exist'''
     if not os.path.isfile("config.ini"):
         config = configparser.ConfigParser()
         config.add_section("Reddit")
@@ -29,6 +28,14 @@ def create_config():
 
 class redditImageScraper:
     def __init__(self, sub, limit, order, nsfw=False):
+        """
+        It downloads images from a subreddit, and saves them to a folder
+        
+        :param sub: The subreddit you want to download from
+        :param limit: The number of images to download
+        :param order: hot, top, new
+        :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
+        """
         config = configparser.ConfigParser()
         config.read("config.ini")
         self.sub = sub
@@ -99,7 +106,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # catch keyboard interrupt
     try:
         main()
     except KeyboardInterrupt:
