@@ -1,4 +1,4 @@
-import concurrent.futures
+import concurrent.futures as futures
 import configparser
 import os
 import re
@@ -8,7 +8,7 @@ import requests
 
 
 class redditImageScraper:
-    def __init__(self, sub='pics', limit=1, order='new', nsfw=False):
+    def __init__(self, sub="pics", limit=1, order="new", nsfw=False):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -58,16 +58,21 @@ class redditImageScraper:
         with open(image["fname"], "wb") as f:
             f.write(r.content)
 
-    def start(self):
+    def set_order(self):
+        """Set the order of the images to download"""
+        if self.order == "hot":
+            return self.reddit.subreddit(self.sub).hot(limit=None)
+        elif self.order == "top":
+            return self.reddit.subreddit(self.sub).top(limit=None)
+        elif self.order == "new":
+            return self.reddit.subreddit(self.sub).new(limit=None)
+
+    def get_images(self):
+        """Get the images from the subreddit"""
         images = []
         try:
             go = 0
-            if self.order == "hot":
-                submissions = self.reddit.subreddit(self.sub).hot(limit=None)
-            elif self.order == "top":
-                submissions = self.reddit.subreddit(self.sub).top(limit=None)
-            elif self.order == "new":
-                submissions = self.reddit.subreddit(self.sub).new(limit=None)
+            submissions = self.set_order()
 
             for submission in submissions:
                 if (
@@ -84,11 +89,22 @@ class redditImageScraper:
                         go += 1
                         if go >= self.limit:
                             break
-            if len(images):
-                if not os.path.exists(self.path):
-                    os.makedirs(self.path)
-                with concurrent.futures.ThreadPoolExecutor() as ptolemy:
-                    ptolemy.map(self.download, images)
+            self.make_dir(images)
+            return images
+        except Exception as e:
+            print(e)
+
+    def make_dir(self, images):
+        if len(images):
+            if not os.path.exists(self.path):
+                os.makedirs(self.path)
+
+    def start(self):
+        """Start the downloader"""
+        images = self.get_images()
+        try:
+            with futures.ThreadPoolExecutor() as ptolemy:
+                ptolemy.map(self.download, images)
         except Exception as e:
             print(e)
 
