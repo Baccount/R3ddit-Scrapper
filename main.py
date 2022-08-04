@@ -8,7 +8,7 @@ import requests
 
 
 class redditImageScraper:
-    def __init__(self, sub='pics', limit=1, order='new', nsfw=False):
+    def __init__(self, sub="pics", limit=1, order="new", nsfw=False):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -58,16 +58,20 @@ class redditImageScraper:
         with open(image["fname"], "wb") as f:
             f.write(r.content)
 
+    def set_order(self):
+        """Set the order of the images to download"""
+        if self.order == "hot":
+            return self.reddit.subreddit(self.sub).hot(limit=None)
+        elif self.order == "top":
+            return self.reddit.subreddit(self.sub).top(limit=None)
+        elif self.order == "new":
+            return self.reddit.subreddit(self.sub).new(limit=None)
+
     def start(self):
         images = []
         try:
             go = 0
-            if self.order == "hot":
-                submissions = self.reddit.subreddit(self.sub).hot(limit=None)
-            elif self.order == "top":
-                submissions = self.reddit.subreddit(self.sub).top(limit=None)
-            elif self.order == "new":
-                submissions = self.reddit.subreddit(self.sub).new(limit=None)
+            submissions = self.set_order()
 
             for submission in submissions:
                 if (
