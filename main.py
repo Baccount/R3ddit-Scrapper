@@ -67,7 +67,9 @@ class redditImageScraper:
         elif self.order == "new":
             return self.reddit.subreddit(self.sub).new(limit=None)
 
-    def start(self):
+
+    def get_images(self):
+        """Get the images from the subreddit"""
         images = []
         try:
             go = 0
@@ -88,6 +90,16 @@ class redditImageScraper:
                         go += 1
                         if go >= self.limit:
                             break
+            return images
+        except Exception as e:
+            print(e)
+
+
+    def start(self):
+        '''Start the downloader '''
+        images = self.get_images()
+
+        try:
             if len(images):
                 if not os.path.exists(self.path):
                     os.makedirs(self.path)
