@@ -1,4 +1,4 @@
-import concurrent.futures
+import concurrent.futures as futures
 import configparser
 import os
 import re
@@ -67,7 +67,6 @@ class redditImageScraper:
         elif self.order == "new":
             return self.reddit.subreddit(self.sub).new(limit=None)
 
-
     def get_images(self):
         """Get the images from the subreddit"""
         images = []
@@ -90,21 +89,22 @@ class redditImageScraper:
                         go += 1
                         if go >= self.limit:
                             break
+            self.make_dir(images)
             return images
         except Exception as e:
             print(e)
 
+    def make_dir(self, images):
+        if len(images):
+            if not os.path.exists(self.path):
+                os.makedirs(self.path)
 
     def start(self):
-        '''Start the downloader '''
+        """Start the downloader"""
         images = self.get_images()
-
         try:
-            if len(images):
-                if not os.path.exists(self.path):
-                    os.makedirs(self.path)
-                with concurrent.futures.ThreadPoolExecutor() as ptolemy:
-                    ptolemy.map(self.download, images)
+            with futures.ThreadPoolExecutor() as ptolemy:
+                ptolemy.map(self.download, images)
         except Exception as e:
             print(e)
 
