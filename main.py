@@ -30,7 +30,6 @@ class redditImageScraper:
     def __init__(self, sub, limit, order, nsfw=False):
         """
         It downloads images from a subreddit, and saves them to a folder
-        
         :param sub: The subreddit you want to download from
         :param limit: The number of images to download
         :param order: hot, top, new
@@ -79,7 +78,7 @@ class redditImageScraper:
                 ):
                     fname = self.path + re.search(
                         # trunk-ignore(flake8/W605)
-                        "(?s:.*)\w/(.*)",
+                        r"(?s:.*)\w/(.*)",
                         submission.url,
                     ).group(1)
                     if not os.path.isfile(fname):
