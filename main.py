@@ -7,35 +7,17 @@ import praw
 import requests
 
 
-def create_config():
-    '''Create config file if it doesn't exist'''
-    if not os.path.isfile("config.ini"):
-        config = configparser.ConfigParser()
-        config.add_section("Reddit")
-        config.set("Reddit", "client_id", input("Enter your client_id: "))
-        config.set("Reddit", "client_secret", input("Enter your client_secret: "))
-        nsfw = input("NSFW True or False?: ")
-        if nsfw.lower() == "True":
-            config.set("Reddit", "nsfw", "True")
-        else:
-            config.set("Reddit", "nsfw", "False")
-
-        config.set("Reddit", "NSFW", nsfw)
-        config.set("Reddit", "user_agent", "Multithreaded Reddit Image Downloader")
-        with open("config.ini", "w") as f:
-            config.write(f)
-
 
 class redditImageScraper:
     def __init__(self, sub, limit, order, nsfw=False):
         """
         It downloads images from a subreddit, and saves them to a folder
-        
         :param sub: The subreddit you want to download from
         :param limit: The number of images to download
         :param order: hot, top, new
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
         """
+        self.create_config()
         config = configparser.ConfigParser()
         config.read("config.ini")
         self.sub = sub
@@ -50,10 +32,28 @@ class redditImageScraper:
             self.nsfw = True
         else:
             self.nsfw = False
-
         self.reddit = praw.Reddit(
             client_id=client_id, client_secret=client_secret, user_agent=user_agent
         )
+
+    def create_config(self):
+        """Create config file if it doesn't exist"""
+        if not os.path.isfile("config.ini"):
+            config = configparser.ConfigParser()
+            config.add_section("Reddit")
+            config.set("Reddit", "client_id", input("Enter your client_id: "))
+            config.set("Reddit", "client_secret",
+                        input("Enter your client_secret: "))
+            nsfw = input("NSFW True or False?: ")
+            if nsfw.lower() == "True":
+                config.set("Reddit", "nsfw", "True")
+            else:
+                config.set("Reddit", "nsfw", "False")
+            config.set("Reddit", "NSFW", nsfw)
+            config.set("Reddit", "user_agent",
+                        "Multithreaded Reddit Image Downloader")
+            with open("config.ini", "w") as f:
+                config.write(f)
 
     def download(self, image):
         r = requests.get(image["url"])
@@ -78,12 +78,13 @@ class redditImageScraper:
                     and submission.url.endswith(("jpg", "jpeg", "png"))
                 ):
                     fname = self.path + re.search(
-                        # trunk-ignore(flake8/W605)
-                        "(?s:.*)\w/(.*)",
+                        r"(?s:.*)\w/(.*)",
                         submission.url,
                     ).group(1)
                     if not os.path.isfile(fname):
                         images.append({"url": submission.url, "fname": fname})
+                        # TEST DELETE ME
+                        print(f"{images}")
                         go += 1
                         if go >= self.limit:
                             break
@@ -97,7 +98,6 @@ class redditImageScraper:
 
 
 def main():
-    create_config()
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
