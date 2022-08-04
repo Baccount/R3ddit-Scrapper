@@ -8,7 +8,7 @@ import requests
 
 
 class redditImageScraper:
-    def __init__(self, sub, limit, order, nsfw=False):
+    def __init__(self, sub='pics', limit=1, order='new', nsfw=False):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
