@@ -7,7 +7,6 @@ import praw
 import requests
 
 
-
 class redditImageScraper:
     def __init__(self, sub, limit, order, nsfw=False):
         """
@@ -18,6 +17,7 @@ class redditImageScraper:
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
         """
         self.create_config()
+
         config = configparser.ConfigParser()
         config.read("config.ini")
         self.sub = sub
@@ -42,16 +42,14 @@ class redditImageScraper:
             config = configparser.ConfigParser()
             config.add_section("Reddit")
             config.set("Reddit", "client_id", input("Enter your client_id: "))
-            config.set("Reddit", "client_secret",
-                        input("Enter your client_secret: "))
+            config.set("Reddit", "client_secret", input("Enter your client_secret: "))
             nsfw = input("NSFW True or False?: ")
             if nsfw.lower() == "True":
                 config.set("Reddit", "nsfw", "True")
             else:
                 config.set("Reddit", "nsfw", "False")
             config.set("Reddit", "NSFW", nsfw)
-            config.set("Reddit", "user_agent",
-                        "Multithreaded Reddit Image Downloader")
+            config.set("Reddit", "user_agent", "Multithreaded Reddit Image Downloader")
             with open("config.ini", "w") as f:
                 config.write(f)
 
@@ -83,8 +81,6 @@ class redditImageScraper:
                     ).group(1)
                     if not os.path.isfile(fname):
                         images.append({"url": submission.url, "fname": fname})
-                        # TEST DELETE ME
-                        print(f"{images}")
                         go += 1
                         if go >= self.limit:
                             break
