@@ -1,3 +1,4 @@
+import argparse as ap
 import concurrent.futures as futures
 import configparser
 import os
@@ -8,13 +9,14 @@ import requests
 
 
 class redditImageScraper:
-    def __init__(self, sub="pics", limit=1, order="new", nsfw=False):
+    def __init__(self, sub="pics", limit=1, order="hot", nsfw=False, argument=False):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
         :param limit: The number of images to download
         :param order: hot, top, new
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
+        :param argument: If you want to use the arguments from the command line, set this to True, defaults to False (optional)
         """
         self.create_config()
 
@@ -23,6 +25,7 @@ class redditImageScraper:
         self.sub = sub
         self.limit = limit
         self.order = order
+        self.argument = argument
         self.path = f"images/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
@@ -107,9 +110,40 @@ class redditImageScraper:
                 ptolemy.map(self.download, images)
         except Exception as e:
             print(e)
+        if self.argument:
+            # exit after using terminal arguments
+            exit(0)
+
+
+def argument():
+    """Parsing the arguments passed by the user.
+    optional arguments:
+    -s --sub: The subreddit you want to download from
+    -l --limit: The number of images to download
+    -o --order: hot, top, new
+    -nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
+    """
+    parser = ap.ArgumentParser(description="Youtube Offline Downloader")
+    parser.add_argument(
+        "-s", "--sub", help="The subreddit you want to download from", required=False
+    )
+    parser.add_argument(
+        "-l", "--limit", help="The number of images to download", required=False
+    )
+    parser.add_argument("-o", "--order", help="hot, top, new", required=False)
+    ol = ["hot", "top", "new"]
+    sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
+    limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
+    order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
+    print(f"Subreddit: {sub}")
+    print(f"Limit: {limit}")
+    print(f"Order: {order}")
+    scraper = redditImageScraper(sub, limit, order, argument=True)
+    scraper.start()
 
 
 def main():
+    argument()
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
