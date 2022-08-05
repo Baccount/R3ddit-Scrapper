@@ -1,3 +1,4 @@
+import argparse as ap
 import concurrent.futures as futures
 import configparser
 import os
@@ -7,14 +8,15 @@ import praw
 import requests
 
 
-class redditImageScraper:
-    def __init__(self, sub="pics", limit=1, order="new", nsfw=False):
+class R3dditScraper:
+    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
         :param limit: The number of images to download
         :param order: hot, top, new
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
+        :param argument: If you want to use the arguments from the command line, set this to True, defaults to False (optional)
         """
         self.create_config()
 
@@ -23,12 +25,13 @@ class redditImageScraper:
         self.sub = sub
         self.limit = limit
         self.order = order
+        self.argument = argument
         self.path = f"images/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
         user_agent = config["Reddit"]["user_agent"]
-        self.nsfw = config["Reddit"]["NSFW"]
-        if self.nsfw == "True":
+        self.nsfw = nsfw
+        if self.nsfw.lower() == "true" or self.nsfw.lower() == "t":
             self.nsfw = True
         else:
             self.nsfw = False
@@ -43,12 +46,6 @@ class redditImageScraper:
             config.add_section("Reddit")
             config.set("Reddit", "client_id", input("Enter your client_id: "))
             config.set("Reddit", "client_secret", input("Enter your client_secret: "))
-            nsfw = input("NSFW True or False?: ")
-            if nsfw.lower() == "True":
-                config.set("Reddit", "nsfw", "True")
-            else:
-                config.set("Reddit", "nsfw", "False")
-            config.set("Reddit", "NSFW", nsfw)
             config.set("Reddit", "user_agent", "Multithreaded Reddit Image Downloader")
             with open("config.ini", "w") as f:
                 config.write(f)
@@ -107,13 +104,49 @@ class redditImageScraper:
                 ptolemy.map(self.download, images)
         except Exception as e:
             print(e)
+        if self.argument:
+            # exit after using terminal arguments
+            exit(0)
+
+
+def argument():
+    """Parsing the arguments passed by the user.
+    optional arguments:
+    -s --sub: The subreddit you want to download from
+    -l --limit: The number of images to download
+    -o --order: hot, top, new
+    -n --nsfw: Set to False of you want to download all NON NSFW images
+    """
+    parser = ap.ArgumentParser(description="R3ddit Scraper")
+    parser.add_argument(
+        "-s", "--sub", help="The subreddit you want to download from", required=False
+    )
+    parser.add_argument(
+        "-l", "--limit", help="The number of images to download", required=False
+    )
+    parser.add_argument("-o", "--order", help="hot, top, new", required=False)
+    parser.add_argument(
+        "-n", "--nsfw", help="Set to False of you want to download all NON NSFW images", required=False)
+
+    ol = ["hot", "top", "new"]
+    sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
+    limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
+    order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
+    nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
+    print(f"Subreddit: {sub}")
+    print(f"Limit: {limit}")
+    print(f"Order: {order}")
+    print(f"NSFW: {nsfw}")
+    scraper = R3dditScraper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True)
+    scraper.start()
 
 
 def main():
+    argument()
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
-    scraper = redditImageScraper(sub, limit, order)
+    scraper = R3dditScraper(sub, limit, order)
     scraper.start()
 
 
