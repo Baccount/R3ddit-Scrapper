@@ -149,15 +149,15 @@ def argument():
     scraper.start()
 
 
-def red(text: str) -> str:
+def blue(text: str) -> str:
     """
-    `red` takes a string and returns a string
+    `blue` takes a string and returns a string
 
     :param text: The text to be colored
     :type text: str
-    :return: The text is being returned with the color red.
+    :return: The text is being returned with the color blue.
     """
-    return "\033[31m" + text + "\033[0m"
+    return "\033[34m" + text + "\033[0m"
 
 def clear_screen():
     """
@@ -173,7 +173,7 @@ def show_splash():
     clear_screen()
     title = "R3ddit\n Scraper"
     f = Figlet(font="standard")
-    print(red(f.renderText(title)))
+    print(blue(f.renderText(title)))
 
 def main():
     argument()
