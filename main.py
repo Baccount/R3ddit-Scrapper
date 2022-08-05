@@ -20,7 +20,6 @@ class R3dditScrapper:
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
         :param argument: If you want to use the arguments from the command line, set this to True, defaults to False (optional)
         """
-        self.create_config()
 
         config = configparser.ConfigParser()
         config.read("config.ini")
@@ -40,16 +39,6 @@ class R3dditScrapper:
         self.reddit = praw.Reddit(
             client_id=client_id, client_secret=client_secret, user_agent=user_agent
         )
-
-    def create_config(self):
-        """Create config file if it doesn't exist"""
-        if not os.path.isfile("config.ini"):
-            config = configparser.ConfigParser()
-            config.add_section("Reddit")
-            config.set("Reddit", "client_id", input("Enter your client_id: "))
-            config.set("Reddit", "client_secret", input("Enter your client_secret: "))
-            with open("config.ini", "w") as f:
-                config.write(f)
 
     def download(self, image):
         r = requests.get(image["url"])
@@ -174,7 +163,21 @@ def show_splash():
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
 
+
+def create_config():
+    """Create config file if it doesn't exist"""
+    if not os.path.isfile("config.ini"):
+        config = configparser.ConfigParser()
+        config.add_section("Reddit")
+        config.set("Reddit", "client_id", input("Enter your client_id: "))
+        config.set("Reddit", "client_secret",
+                    input("Enter your client_secret: "))
+        with open("config.ini", "w") as f:
+            config.write(f)
+
+
 def main():
+    create_config()
     argument()
     show_splash()
     sub = input("Enter subreddit: ")
