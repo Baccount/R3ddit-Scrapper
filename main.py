@@ -9,7 +9,7 @@ import requests
 
 
 class R3dditScraper:
-    def __init__(self, sub="pics", limit=1, order="hot", nsfw=True, argument=False):
+    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -132,7 +132,7 @@ def argument():
     sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
     limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
     order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
-    nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else True
+    nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
     print(f"Subreddit: {sub}")
     print(f"Limit: {limit}")
     print(f"Order: {order}")
