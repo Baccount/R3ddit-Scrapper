@@ -4,6 +4,7 @@ import configparser
 import os
 import re
 import sys
+from pyfiglet import Figlet
 
 import praw
 import requests
@@ -148,8 +149,35 @@ def argument():
     scraper.start()
 
 
+def red(text: str) -> str:
+    """
+    `red` takes a string and returns a string
+
+    :param text: The text to be colored
+    :type text: str
+    :return: The text is being returned with the color red.
+    """
+    return "\033[31m" + text + "\033[0m"
+
+def clear_screen():
+    """
+    It prints 25 new lines
+    """
+    print("\n" * 25)
+
+
+def show_splash():
+    """
+    Display splash screen
+    """
+    clear_screen()
+    title = "R3ddit\n Scraper"
+    f = Figlet(font="standard")
+    print(red(f.renderText(title)))
+
 def main():
     argument()
+    show_splash()
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
