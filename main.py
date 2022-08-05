@@ -3,6 +3,7 @@ import concurrent.futures as futures
 import configparser
 import os
 import re
+import sys
 
 import praw
 import requests
@@ -126,8 +127,14 @@ def argument():
     )
     parser.add_argument("-o", "--order", help="hot, top, new", required=False)
     parser.add_argument(
-        "-n", "--nsfw", help="Set to False of you want to download all NON NSFW images", required=False)
-
+        "-n",
+        "--nsfw",
+        help="Set to False of you want to download all NON NSFW images",
+        required=False,
+    )
+    # if no arguments are passed, return
+    if len(sys.argv) == 1:
+        return
     ol = ["hot", "top", "new"]
     sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
     limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
