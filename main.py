@@ -115,7 +115,7 @@ def argument():
     -s --sub: The subreddit you want to download from
     -l --limit: The number of images to download
     -o --order: hot, top, new
-    -nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
+    -n --nsfw: Set to False of you want to download all NON NSFW images
     """
     parser = ap.ArgumentParser(description="R3ddit Scraper")
     parser.add_argument(
@@ -125,7 +125,8 @@ def argument():
         "-l", "--limit", help="The number of images to download", required=False
     )
     parser.add_argument("-o", "--order", help="hot, top, new", required=False)
-    parser.add_argument("-nsfw", help="If you want to download NSFW images, set this to True (optional)", required=False)
+    parser.add_argument(
+        "-n", "--nsfw", help="Set to False of you want to download all NON NSFW images", required=False)
 
     ol = ["hot", "top", "new"]
     sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
