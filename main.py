@@ -10,7 +10,7 @@ import praw
 import requests
 
 
-class R3dditScraper:
+class R3dditScrapper:
     def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
         """
         It downloads images from a subreddit, and saves them to a folder
@@ -31,7 +31,7 @@ class R3dditScraper:
         self.path = f"images/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
-        user_agent = config["Reddit"]["user_agent"]
+        user_agent = "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
         self.nsfw = nsfw
         if self.nsfw.lower() == "true" or self.nsfw.lower() == "t":
             self.nsfw = True
@@ -48,7 +48,6 @@ class R3dditScraper:
             config.add_section("Reddit")
             config.set("Reddit", "client_id", input("Enter your client_id: "))
             config.set("Reddit", "client_secret", input("Enter your client_secret: "))
-            config.set("Reddit", "user_agent", "Multithreaded Reddit Image Downloader")
             with open("config.ini", "w") as f:
                 config.write(f)
 
@@ -119,7 +118,7 @@ def argument():
     -o --order: hot, top, new
     -n --nsfw: Set to False of you want to download all NON NSFW images
     """
-    parser = ap.ArgumentParser(description="R3ddit Scraper")
+    parser = ap.ArgumentParser(description="R3ddit Scrapper")
     parser.add_argument(
         "-s", "--sub", help="The subreddit you want to download from", required=False
     )
@@ -145,8 +144,8 @@ def argument():
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    scraper = R3dditScraper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True)
-    scraper.start()
+    Scrapper = R3dditScrapper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True)
+    Scrapper.start()
 
 
 def blue(text: str) -> str:
@@ -171,7 +170,7 @@ def show_splash():
     Display splash screen
     """
     clear_screen()
-    title = "R3ddit\n Scraper"
+    title = "R3ddit\n Scrapper"
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
 
@@ -181,8 +180,8 @@ def main():
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
-    scraper = R3dditScraper(sub, limit, order)
-    scraper.start()
+    Scrapper = R3dditScrapper(sub, limit, order)
+    Scrapper.start()
 
 
 if __name__ == "__main__":
