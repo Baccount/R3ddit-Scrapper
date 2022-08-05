@@ -31,7 +31,7 @@ class R3dditScraper:
         client_secret = config["Reddit"]["client_secret"]
         user_agent = config["Reddit"]["user_agent"]
         self.nsfw = nsfw
-        if self.nsfw.lower() == "true":
+        if self.nsfw.lower() == "true" or self.nsfw.lower() == "t":
             self.nsfw = True
         else:
             self.nsfw = False
