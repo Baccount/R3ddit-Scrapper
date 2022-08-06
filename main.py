@@ -4,10 +4,10 @@ import configparser
 import os
 import re
 import sys
-from pyfiglet import Figlet
 
 import praw
 import requests
+from pyfiglet import Figlet
 
 
 class R3dditScrapper:
@@ -30,7 +30,9 @@ class R3dditScrapper:
         self.path = f"images/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
-        user_agent = "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        user_agent = (
+            "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        )
         self.nsfw = nsfw
         if self.nsfw.lower() == "true" or self.nsfw.lower() == "t":
             self.nsfw = True
@@ -133,7 +135,9 @@ def argument():
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    Scrapper = R3dditScrapper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True)
+    Scrapper = R3dditScrapper(
+        sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True
+    )
     Scrapper.start()
 
 
@@ -146,6 +150,7 @@ def blue(text: str) -> str:
     :return: The text is being returned with the color blue.
     """
     return "\033[34m" + text + "\033[0m"
+
 
 def clear_screen():
     """
@@ -170,8 +175,7 @@ def create_config():
         config = configparser.ConfigParser()
         config.add_section("Reddit")
         config.set("Reddit", "client_id", input("Enter your client_id: "))
-        config.set("Reddit", "client_secret",
-                    input("Enter your client_secret: "))
+        config.set("Reddit", "client_secret", input("Enter your client_secret: "))
         with open("config.ini", "w") as f:
             config.write(f)
 
@@ -183,8 +187,7 @@ def main():
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
-    Scrapper = R3dditScrapper(sub, limit, order)
-    Scrapper.start()
+    R3dditScrapper(sub, limit, order).start()
 
 
 if __name__ == "__main__":
