@@ -4,10 +4,10 @@ import configparser
 import os
 import re
 import sys
-from pyfiglet import Figlet
 
 import praw
 import requests
+from pyfiglet import Figlet
 
 
 class R3dditScrapper:
@@ -20,7 +20,6 @@ class R3dditScrapper:
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
         :param argument: If you want to use the arguments from the command line, set this to True, defaults to False (optional)
         """
-        self.create_config()
 
         config = configparser.ConfigParser()
         config.read("config.ini")
@@ -31,7 +30,9 @@ class R3dditScrapper:
         self.path = f"images/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
-        user_agent = "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        user_agent = (
+            "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        )
         self.nsfw = nsfw
         if self.nsfw.lower() == "true" or self.nsfw.lower() == "t":
             self.nsfw = True
@@ -40,16 +41,6 @@ class R3dditScrapper:
         self.reddit = praw.Reddit(
             client_id=client_id, client_secret=client_secret, user_agent=user_agent
         )
-
-    def create_config(self):
-        """Create config file if it doesn't exist"""
-        if not os.path.isfile("config.ini"):
-            config = configparser.ConfigParser()
-            config.add_section("Reddit")
-            config.set("Reddit", "client_id", input("Enter your client_id: "))
-            config.set("Reddit", "client_secret", input("Enter your client_secret: "))
-            with open("config.ini", "w") as f:
-                config.write(f)
 
     def download(self, image):
         r = requests.get(image["url"])
@@ -144,7 +135,9 @@ def argument():
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    Scrapper = R3dditScrapper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True)
+    Scrapper = R3dditScrapper(
+        sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True
+    )
     Scrapper.start()
 
 
@@ -157,6 +150,7 @@ def blue(text: str) -> str:
     :return: The text is being returned with the color blue.
     """
     return "\033[34m" + text + "\033[0m"
+
 
 def clear_screen():
     """
@@ -174,14 +168,26 @@ def show_splash():
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
 
+
+def create_config():
+    """Create config file if it doesn't exist"""
+    if not os.path.isfile("config.ini"):
+        config = configparser.ConfigParser()
+        config.add_section("Reddit")
+        config.set("Reddit", "client_id", input("Enter your client_id: "))
+        config.set("Reddit", "client_secret", input("Enter your client_secret: "))
+        with open("config.ini", "w") as f:
+            config.write(f)
+
+
 def main():
+    create_config()
     argument()
     show_splash()
     sub = input("Enter subreddit: ")
     limit = int(input("Number of photos: "))
     order = input("Order (hot, top, new): ")
-    Scrapper = R3dditScrapper(sub, limit, order)
-    Scrapper.start()
+    R3dditScrapper(sub, limit, order).start()
 
 
 if __name__ == "__main__":
