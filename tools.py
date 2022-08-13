@@ -50,12 +50,14 @@ def show_splash():
 
 
 def argument():
-    """Parsing the arguments passed by the user.
+    """
+    Parsing the arguments passed by the user.
     optional arguments:
     -s --sub: The subreddit you want to download from
-    -l --limit: The number of images to download
+    -l --limit: number of images to download
     -o --order: hot, top, new
-    -n --nsfw: Set to False of you want to download all NON NSFW images
+    -n --nsfw: False = NO NSFW images
+    -p --path: The path you want to save to
     """
     parser = ap.ArgumentParser(description="R3ddit Scrapper")
     parser.add_argument(
@@ -71,6 +73,9 @@ def argument():
         help="Set to False of you want to download all NON NSFW images",
         required=False,
     )
+    parser.add_argument(
+        "-p", "--path", help="The folder you want to save to", required=False
+    )
     # if no arguments are passed, return
     if len(sys.argv) == 1:
         return
@@ -79,8 +84,10 @@ def argument():
     limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
     order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
     nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
+    path = parser.parse_args().path if parser.parse_args().path else None
     print(f"Subreddit: {sub}")
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    return sub, limit, order, nsfw
+    print(f"Folder: {path}")
+    return sub, limit, order, nsfw, path

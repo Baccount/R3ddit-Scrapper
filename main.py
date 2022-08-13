@@ -9,7 +9,7 @@ from time import sleep
 from tools import blue, green, red, show_splash, argument
 
 class R3dditScrapper:
-    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
+    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -17,6 +17,7 @@ class R3dditScrapper:
         :param order: hot, top, new
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
         :param argument: If you want to use the arguments from the command line, set this to True, defaults to False (optional)
+        :param folder: The path you want to save to, defaults to the subreddit name (optional)
         """
 
         config = configparser.ConfigParser()
@@ -25,7 +26,7 @@ class R3dditScrapper:
         self.limit = limit
         self.order = order
         self.argument = argument
-        self.path = f"images/{self.sub}/"
+        self.path = f"images/{self.sub}/" if not path else f"{path}/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
         user_agent = (
@@ -113,8 +114,8 @@ def create_config():
 
 def main():
     create_config()
-    sub, limit, order, nsfw = argument()
-    R3dditScrapper(sub, limit, order, nsfw, True).start()
+    sub, limit, order, nsfw, path = argument()
+    R3dditScrapper(sub, limit, order, nsfw, True, path).start()
     show_splash()
     sub = input("Enter subreddit: ")
     try:
