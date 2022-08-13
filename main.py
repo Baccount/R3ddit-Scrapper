@@ -1,14 +1,12 @@
-import argparse as ap
 import concurrent.futures as futures
 import configparser
 import os
 import re
-import sys
 
 import praw
 import requests
 from time import sleep
-from tools import blue, green, red, show_splash
+from tools import blue, green, red, show_splash, argument
 
 class R3dditScrapper:
     def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
@@ -102,48 +100,6 @@ class R3dditScrapper:
             sleep(2)
             main()
 
-
-def argument():
-    """Parsing the arguments passed by the user.
-    optional arguments:
-    -s --sub: The subreddit you want to download from
-    -l --limit: The number of images to download
-    -o --order: hot, top, new
-    -n --nsfw: Set to False of you want to download all NON NSFW images
-    """
-    parser = ap.ArgumentParser(description="R3ddit Scrapper")
-    parser.add_argument(
-        "-s", "--sub", help="The subreddit you want to download from", required=False
-    )
-    parser.add_argument(
-        "-l", "--limit", help="The number of images to download", required=False
-    )
-    parser.add_argument("-o", "--order", help="hot, top, new", required=False)
-    parser.add_argument(
-        "-n",
-        "--nsfw",
-        help="Set to False of you want to download all NON NSFW images",
-        required=False,
-    )
-    # if no arguments are passed, return
-    if len(sys.argv) == 1:
-        return
-    ol = ["hot", "top", "new"]
-    sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
-    limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
-    order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
-    nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
-    print(f"Subreddit: {sub}")
-    print(f"Limit: {limit}")
-    print(f"Order: {order}")
-    print(f"NSFW: {nsfw}")
-    Scrapper = R3dditScrapper(
-        sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True
-    )
-    Scrapper.start()
-
-
-
 def create_config():
     """Create config file if it doesn't exist"""
     if not os.path.isfile("config.ini"):
@@ -157,10 +113,10 @@ def create_config():
 
 def main():
     create_config()
-    argument()
+    sub, limit, order, nsfw = argument()
+    R3dditScrapper(sub, limit, order, nsfw, True).start()
     show_splash()
     sub = input("Enter subreddit: ")
-    # catch the exception if sting is entered instead of a number
     try:
         limit = int(input("Number of photos: "))
     except ValueError:
