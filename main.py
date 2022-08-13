@@ -72,11 +72,13 @@ class R3dditScrapper:
                         r"(?s:.*)\w/(.*)",
                         submission.url,
                     ).group(1)
-                    images.append({"url": submission.url, "fname": fname})
-                    go += 1
-                    print(green(f"{go}/{self.limit}"))
-                    if go >= self.limit:
-                        break
+                    if not os.path.isfile(fname):
+                        # Add image Only if it does not already exist
+                        images.append({"url": submission.url, "fname": fname})
+                        go += 1
+                        print(green(f"{go}/{self.limit}"))
+                        if go >= self.limit:
+                            break
             self.make_dir(images)
             return images
         except Exception as e:
