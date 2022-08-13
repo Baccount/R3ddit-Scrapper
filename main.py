@@ -8,7 +8,7 @@ import sys
 import praw
 import requests
 from pyfiglet import Figlet
-
+from time import sleep
 
 class R3dditScrapper:
     def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
@@ -56,26 +56,27 @@ class R3dditScrapper:
         elif self.order == "new":
             return self.reddit.subreddit(self.sub).new(limit=None)
 
-    def get_images(self):
+    def get_images(self) -> list:
         """Get the images from the subreddit"""
         images = []
         try:
             go = 0
             submissions = self.set_order()
-
             for submission in submissions:
                 if (
                     not submission.stickied
                     and submission.over_18 == self.nsfw
-                    and submission.url.endswith(("jpg", "jpeg", "png"))
+                    and submission.url.endswith(("jpg", "jpeg", "png", "gif"))
                 ):
                     fname = self.path + re.search(
                         r"(?s:.*)\w/(.*)",
                         submission.url,
                     ).group(1)
                     if not os.path.isfile(fname):
+                        # Add image Only if it does not already exist
                         images.append({"url": submission.url, "fname": fname})
                         go += 1
+                        print(green(f"{go}/{self.limit}"))
                         if go >= self.limit:
                             break
             self.make_dir(images)
@@ -89,16 +90,18 @@ class R3dditScrapper:
                 os.makedirs(self.path)
 
     def start(self):
-        """Start the downloader"""
-        images = self.get_images()
-        try:
-            with futures.ThreadPoolExecutor() as ptolemy:
-                ptolemy.map(self.download, images)
-        except Exception as e:
-            print(e)
+        # track the progress of the download with a thread pool
+        print(blue("Downloading images from r/" + self.sub))
+        with futures.ThreadPoolExecutor() as executor:
+            executor.map(self.download, self.get_images())
+        print(green("\nDone"))
         if self.argument:
             # exit after using terminal arguments
             exit(0)
+        else:
+            # restart the program if not using terminal arguments
+            sleep(2)
+            main()
 
 
 def argument():
@@ -151,6 +154,25 @@ def blue(text: str) -> str:
     """
     return "\033[34m" + text + "\033[0m"
 
+def green(text: str) -> str:
+    """
+    `green` takes a string and returns a string
+
+    :param text: The text to be colored
+    :type text: str
+    :return: The text is being returned with the color green.
+    """
+    return "\033[32m" + text + "\033[0m"
+
+def red(text: str) -> str:
+    """
+    `red` takes a string and returns a string
+
+    :param text: The text to be colored
+    :type text: str
+    :return: The text is being returned with the color red.
+    """
+    return "\033[31m" + text + "\033[0m"
 
 def clear_screen():
     """
@@ -185,8 +207,17 @@ def main():
     argument()
     show_splash()
     sub = input("Enter subreddit: ")
-    limit = int(input("Number of photos: "))
+    # catch the exception if sting is entered instead of a number
+    try:
+        limit = int(input("Number of photos: "))
+    except ValueError:
+        print(red("This is not a number, defaulting to 1"))
+        limit = 1
     order = input("Order (hot, top, new): ")
+    if order not in ["hot", "top", "new"]:
+        print("Invalid Order")
+        sleep(2)
+        main()
     R3dditScrapper(sub, limit, order).start()
 
 
