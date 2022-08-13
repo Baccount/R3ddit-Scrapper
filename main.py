@@ -9,6 +9,9 @@ import praw
 import requests
 from pyfiglet import Figlet
 
+# simple progress indicator callback function
+def progress_indicator(future):
+    print(green('.'), end='')
 
 class R3dditScrapper:
     def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
@@ -67,7 +70,7 @@ class R3dditScrapper:
                 if (
                     not submission.stickied
                     and submission.over_18 == self.nsfw
-                    and submission.url.endswith(("jpg", "jpeg", "png"))
+                    and submission.url.endswith(("jpg", "jpeg", "png", "gif"))
                 ):
                     fname = self.path + re.search(
                         r"(?s:.*)\w/(.*)",
@@ -89,13 +92,14 @@ class R3dditScrapper:
                 os.makedirs(self.path)
 
     def start(self):
-        """Start the downloader"""
-        images = self.get_images()
-        try:
-            with futures.ThreadPoolExecutor() as ptolemy:
-                ptolemy.map(self.download, images)
-        except Exception as e:
-            print(e)
+        # track the progress of the download with a thread pool
+        print(blue("Downloading images from r/" + self.sub))
+        with futures.ThreadPoolExecutor(max_workers=10) as executor:
+            for future in futures.as_completed(
+                [executor.submit(self.download, image) for image in self.get_images()]
+            ):
+                future.add_done_callback(progress_indicator)
+        print(green("\nDone"))
         if self.argument:
             # exit after using terminal arguments
             exit(0)
@@ -151,6 +155,15 @@ def blue(text: str) -> str:
     """
     return "\033[34m" + text + "\033[0m"
 
+def green(text: str) -> str:
+    """
+    `green` takes a string and returns a string
+
+    :param text: The text to be colored
+    :type text: str
+    :return: The text is being returned with the color green.
+    """
+    return "\033[32m" + text + "\033[0m"
 
 def clear_screen():
     """
