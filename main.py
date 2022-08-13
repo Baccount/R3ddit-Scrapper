@@ -7,8 +7,8 @@ import sys
 
 import praw
 import requests
-from pyfiglet import Figlet
 from time import sleep
+from tools import blue, green, red, show_splash
 
 class R3dditScrapper:
     def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
@@ -90,7 +90,6 @@ class R3dditScrapper:
                 os.makedirs(self.path)
 
     def start(self):
-        # track the progress of the download with a thread pool
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.get_images())
@@ -143,52 +142,6 @@ def argument():
     )
     Scrapper.start()
 
-
-def blue(text: str) -> str:
-    """
-    `blue` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color blue.
-    """
-    return "\033[34m" + text + "\033[0m"
-
-def green(text: str) -> str:
-    """
-    `green` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color green.
-    """
-    return "\033[32m" + text + "\033[0m"
-
-def red(text: str) -> str:
-    """
-    `red` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color red.
-    """
-    return "\033[31m" + text + "\033[0m"
-
-def clear_screen():
-    """
-    It prints 25 new lines
-    """
-    print("\n" * 25)
-
-
-def show_splash():
-    """
-    Display splash screen
-    """
-    clear_screen()
-    title = "R3ddit\n Scrapper"
-    f = Figlet(font="standard")
-    print(blue(f.renderText(title)))
 
 
 def create_config():
