@@ -1,6 +1,8 @@
-from pyfiglet import Figlet
 import argparse as ap
 import sys
+
+from pyfiglet import Figlet
+
 
 def blue(text: str) -> str:
     """
@@ -12,6 +14,7 @@ def blue(text: str) -> str:
     """
     return "\033[34m" + text + "\033[0m"
 
+
 def green(text: str) -> str:
     """
     `green` takes a string and returns a string
@@ -22,6 +25,7 @@ def green(text: str) -> str:
     """
     return "\033[32m" + text + "\033[0m"
 
+
 def red(text: str) -> str:
     """
     `red` takes a string and returns a string
@@ -31,6 +35,7 @@ def red(text: str) -> str:
     :return: The text is being returned with the color red.
     """
     return "\033[31m" + text + "\033[0m"
+
 
 def clear_screen():
     """
