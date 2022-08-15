@@ -48,10 +48,13 @@ def show_splash():
     """
     Display splash screen
     """
+    from main import VERSION
     clear_screen()
     title = "R3ddit\n Scrapper"
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
+    # add 10 spaces to the title
+    print(" " * 45 + red(VERSION))
 
 
 def argument():
