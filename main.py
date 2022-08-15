@@ -1,17 +1,15 @@
-import argparse as ap
 import concurrent.futures as futures
 import configparser
 import os
 import re
-import sys
 
 import praw
 import requests
-from pyfiglet import Figlet
 from time import sleep
+from tools import blue, green, red, show_splash, argument
 
 class R3dditScrapper:
-    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False):
+    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -19,6 +17,7 @@ class R3dditScrapper:
         :param order: hot, top, new
         :param nsfw: If you want to download NSFW images, set this to True, defaults to False (optional)
         :param argument: If you want to use the arguments from the command line, set this to True, defaults to False (optional)
+        :param folder: The path you want to save to, defaults to the subreddit name (optional)
         """
 
         config = configparser.ConfigParser()
@@ -27,7 +26,7 @@ class R3dditScrapper:
         self.limit = limit
         self.order = order
         self.argument = argument
-        self.path = f"images/{self.sub}/"
+        self.path = f"images/{self.sub}/" if not path else f"{path}/{self.sub}/"
         client_id = config["Reddit"]["client_id"]
         client_secret = config["Reddit"]["client_secret"]
         user_agent = (
@@ -90,7 +89,6 @@ class R3dditScrapper:
                 os.makedirs(self.path)
 
     def start(self):
-        # track the progress of the download with a thread pool
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.get_images())
@@ -103,94 +101,6 @@ class R3dditScrapper:
             sleep(2)
             main()
 
-
-def argument():
-    """Parsing the arguments passed by the user.
-    optional arguments:
-    -s --sub: The subreddit you want to download from
-    -l --limit: The number of images to download
-    -o --order: hot, top, new
-    -n --nsfw: Set to False of you want to download all NON NSFW images
-    """
-    parser = ap.ArgumentParser(description="R3ddit Scrapper")
-    parser.add_argument(
-        "-s", "--sub", help="The subreddit you want to download from", required=False
-    )
-    parser.add_argument(
-        "-l", "--limit", help="The number of images to download", required=False
-    )
-    parser.add_argument("-o", "--order", help="hot, top, new", required=False)
-    parser.add_argument(
-        "-n",
-        "--nsfw",
-        help="Set to False of you want to download all NON NSFW images",
-        required=False,
-    )
-    # if no arguments are passed, return
-    if len(sys.argv) == 1:
-        return
-    ol = ["hot", "top", "new"]
-    sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
-    limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
-    order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
-    nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
-    print(f"Subreddit: {sub}")
-    print(f"Limit: {limit}")
-    print(f"Order: {order}")
-    print(f"NSFW: {nsfw}")
-    Scrapper = R3dditScrapper(
-        sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True
-    )
-    Scrapper.start()
-
-
-def blue(text: str) -> str:
-    """
-    `blue` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color blue.
-    """
-    return "\033[34m" + text + "\033[0m"
-
-def green(text: str) -> str:
-    """
-    `green` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color green.
-    """
-    return "\033[32m" + text + "\033[0m"
-
-def red(text: str) -> str:
-    """
-    `red` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color red.
-    """
-    return "\033[31m" + text + "\033[0m"
-
-def clear_screen():
-    """
-    It prints 25 new lines
-    """
-    print("\n" * 25)
-
-
-def show_splash():
-    """
-    Display splash screen
-    """
-    clear_screen()
-    title = "R3ddit\n Scrapper"
-    f = Figlet(font="standard")
-    print(blue(f.renderText(title)))
-
-
 def create_config():
     """Create config file if it doesn't exist"""
     if not os.path.isfile("config.ini"):
@@ -201,13 +111,31 @@ def create_config():
         with open("config.ini", "w") as f:
             config.write(f)
 
+def setPath():
+    """Set the path to download to"""
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    config.add_section("Path")
+    config.set("Path", "path", input("Enter the path to download to: "))
+    # check if the path exists
+    # try to create the path if it doesn't exist
+    if not os.path.exists(config["Path"]["path"]):
+        try:
+            os.makedirs(config["Path"]["path"])
+        # catch incorrect path error
+        except Exception as e:
+            print(e)
+            setPath()
+    with open("config.ini", "w") as f:
+        config.write(f)
+
+
 
 def main():
     create_config()
     argument()
     show_splash()
     sub = input("Enter subreddit: ")
-    # catch the exception if sting is entered instead of a number
     try:
         limit = int(input("Number of photos: "))
     except ValueError:
@@ -218,7 +146,18 @@ def main():
         print("Invalid Order")
         sleep(2)
         main()
-    R3dditScrapper(sub, limit, order).start()
+    # ask if user wants to set the path
+    path = input("Set path? (y/n): ")
+    if path.lower() == "y":
+        setPath()
+    # if the path is set use it
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if "Path" in config:
+        path = config["Path"]["path"]
+        R3dditScrapper(sub, limit, order, path=path).start()
+    else:
+        R3dditScrapper(sub, limit, order).start()
 
 
 if __name__ == "__main__":
