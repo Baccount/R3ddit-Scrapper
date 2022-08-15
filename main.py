@@ -111,11 +111,29 @@ def create_config():
         with open("config.ini", "w") as f:
             config.write(f)
 
+def setPath():
+    """Set the path to download to"""
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    config.add_section("Path")
+    config.set("Path", "path", input("Enter the path to download to: "))
+    # check if the path exists
+    # try to create the path if it doesn't exist
+    if not os.path.exists(config["Path"]["path"]):
+        try:
+            os.makedirs(config["Path"]["path"])
+        # catch incorrect path error
+        except Exception as e:
+            print(e)
+            setPath()
+    with open("config.ini", "w") as f:
+        config.write(f)
+
+
 
 def main():
     create_config()
-    sub, limit, order, nsfw, path = argument()
-    R3dditScrapper(sub, limit, order, nsfw, True, path).start()
+    argument()
     show_splash()
     sub = input("Enter subreddit: ")
     try:
@@ -128,7 +146,18 @@ def main():
         print("Invalid Order")
         sleep(2)
         main()
-    R3dditScrapper(sub, limit, order).start()
+    # ask if user wants to set the path
+    path = input("Set path? (y/n): ")
+    if path.lower() == "y":
+        setPath()
+    # if the path is set use it
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if "Path" in config:
+        path = config["Path"]["path"]
+        R3dditScrapper(sub, limit, order, path=path).start()
+    else:
+        R3dditScrapper(sub, limit, order).start()
 
 
 if __name__ == "__main__":

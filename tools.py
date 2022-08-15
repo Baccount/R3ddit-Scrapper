@@ -79,7 +79,7 @@ def argument():
         required=False,
     )
     parser.add_argument(
-        "-p", "--path", help="The folder you want to save to", required=False
+        "-p", "--path", nargs='+', help="The folder you want to save to", required=False
     )
     # if no arguments are passed, return
     if len(sys.argv) == 1:
@@ -90,9 +90,12 @@ def argument():
     order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
     nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
     path = parser.parse_args().path if parser.parse_args().path else None
+    # join path with space fix https://stackoverflow.com/a/26990349
+    path = ' '.join(path)
     print(f"Subreddit: {sub}")
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    print(f"Folder: {path}")
-    return sub, limit, order, nsfw, path
+    print(f"Path: {path}")
+    from main import R3dditScrapper
+    R3dditScrapper(sub, limit, order, nsfw, True, path).start()
