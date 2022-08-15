@@ -54,7 +54,7 @@ def show_splash():
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
     # add 10 spaces to the title
-    print(" " * 45 + red(VERSION))
+    print(" " * 45 + red("v") + red(VERSION))
 
 
 def argument():
@@ -102,3 +102,18 @@ def argument():
     print(f"Path: {path}")
     from main import R3dditScrapper
     R3dditScrapper(sub, limit, order, nsfw, True, path).start()
+
+def check_update():
+    """
+    Check if there is a new version of the program from
+    https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
+    """
+    # downlaod async the version file
+
+    from main import VERSION
+    import requests
+    r = requests.get("https://raw.githubusercontent.com/Baccount/Reddit_Downloader/master/version.txt")
+    r = r.text.strip()
+    if not r == VERSION:
+        print(f"There is a new version of the program: {r}")
+        print("https://github.com/Baccount/Reddit_Downloader")
