@@ -142,7 +142,7 @@ def main():
         print(red("This is not a number, defaulting to 1"))
         limit = 1
     order = input("Order (hot, top, new): ")
-    if order not in ["hot", "top", "new"]:
+    if order.lower() not in ["hot", "top", "new"]:
         print("Invalid Order")
         sleep(2)
         main()
