@@ -155,7 +155,7 @@ def main():
         print(red("Defaulting to hot"))
         order = "hot"
     # ask if user wants to set the path
-    path = input("Set path? (y/n): ")
+    path = input("Set save path? (y/n): ")
     if path.lower() == "y":
         setPath()
     # if the path is set use it
