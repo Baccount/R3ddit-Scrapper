@@ -42,9 +42,12 @@ class R3dditScrapper:
         )
 
     def download(self, image):
-        r = requests.get(image["url"])
-        with open(image["fname"], "wb") as f:
-            f.write(r.content)
+        try:
+            r = requests.get(image["url"])
+            with open(image["fname"], "wb") as f:
+                f.write(r.content)
+        except Exception as e:
+            print(e)
 
     def set_order(self):
         """Set the order of the images to download"""
@@ -80,8 +83,13 @@ class R3dditScrapper:
                             break
             self.make_dir(images)
             return images
+        # catch bad request errors
         except Exception as e:
-            print(e)
+            print(red(str(e)))
+            print(red("Subreddit not found"))
+            # restart program if error occurs
+            sleep(2)
+            main()
 
     def make_dir(self, images):
         if len(images):
@@ -143,9 +151,8 @@ def main():
         limit = 1
     order = input("Order (hot, top, new): ")
     if order.lower() not in ["hot", "top", "new"]:
-        print("Invalid Order")
-        sleep(2)
-        main()
+        print(red("Defaulting to hot"))
+        order = "hot"
     # ask if user wants to set the path
     path = input("Set path? (y/n): ")
     if path.lower() == "y":
