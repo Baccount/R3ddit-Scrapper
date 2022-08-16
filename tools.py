@@ -106,7 +106,7 @@ def argument():
     R3dditScrapper(sub, limit, order, nsfw, True, path).start()
 
 
-def check_update():
+def check_update() -> bool:
     """
     Check if there is a new version of the program from
     https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
@@ -124,6 +124,9 @@ def check_update():
         if not r == VERSION:
             print(f"There is a new version of the program: {r}")
             print("https://github.com/Baccount/Reddit_Downloader")
+            return True
+        return True
     # trunk-ignore(flake8/E722)
     except:
         print("Could not check for updates")
+        return False
