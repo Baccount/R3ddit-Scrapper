@@ -6,7 +6,7 @@ import re
 import praw
 import requests
 from time import sleep
-from tools import blue, green, red, show_splash, argument
+from tools import blue, green, red, show_splash, argument, check_update
 
 VERSION = "1.0.0"
 class R3dditScrapper:
@@ -144,6 +144,7 @@ def main():
     create_config()
     argument()
     show_splash()
+    check_update()
     sub = input("Enter subreddit: ")
     try:
         limit = int(input("Number of photos: "))
