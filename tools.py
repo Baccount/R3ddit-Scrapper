@@ -49,6 +49,7 @@ def show_splash():
     Display splash screen
     """
     from main import VERSION
+
     clear_screen()
     title = "R3ddit\n Scrapper"
     f = Figlet(font="standard")
@@ -82,7 +83,7 @@ def argument():
         required=False,
     )
     parser.add_argument(
-        "-p", "--path", nargs='+', help="The folder you want to save to", required=False
+        "-p", "--path", nargs="+", help="The folder you want to save to", required=False
     )
     # if no arguments are passed, return
     if len(sys.argv) == 1:
@@ -94,14 +95,16 @@ def argument():
     nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
     path = parser.parse_args().path if parser.parse_args().path else None
     # join path with space fix https://stackoverflow.com/a/26990349
-    path = ' '.join(path)
+    path = " ".join(path)
     print(f"Subreddit: {sub}")
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
     print(f"Path: {path}")
     from main import R3dditScrapper
+
     R3dditScrapper(sub, limit, order, nsfw, True, path).start()
+
 
 def check_update():
     """
@@ -109,11 +112,18 @@ def check_update():
     https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
     """
     # downlaod async the version file
+    try:
+        import requests
 
-    from main import VERSION
-    import requests
-    r = requests.get("https://raw.githubusercontent.com/Baccount/Reddit_Downloader/master/version.txt")
-    r = r.text.strip()
-    if not r == VERSION:
-        print(f"There is a new version of the program: {r}")
-        print("https://github.com/Baccount/Reddit_Downloader")
+        from main import VERSION
+
+        r = requests.get(
+            "https://raw.githubusercontent.com/Baccount/Reddit_Downloader/master/version.txt"
+        )
+        r = r.text.strip()
+        if not r == VERSION:
+            print(f"There is a new version of the program: {r}")
+            print("https://github.com/Baccount/Reddit_Downloader")
+    # trunk-ignore(flake8/E722)
+    except:
+        print("Could not check for updates")
