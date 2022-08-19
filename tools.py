@@ -111,7 +111,7 @@ def check_update() -> bool:
     Check if there is a new version of the program from
     https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
     """
-    # downlaod async the version file
+    # download async the version file
     try:
         import requests
 
