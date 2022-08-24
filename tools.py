@@ -1,5 +1,6 @@
 import argparse as ap
 import sys
+from time import sleep
 
 from pyfiglet import Figlet
 
@@ -123,8 +124,10 @@ def check_update() -> bool:
             print(" " * 45 + red(VERSION))
             print(f"There is a new version of the program: {r}")
             print(blue("https://github.com/Baccount/Reddit_Downloader"))
+            sleep(2)
             return True
         else:
+            print(green("Currently running the latest version"))
             print(" " * 45 + red(VERSION))
         return True
     # trunk-ignore(flake8/E722)
