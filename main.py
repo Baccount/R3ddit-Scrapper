@@ -186,7 +186,7 @@ def options():
     elif option.lower() == "c":
         check_update()
     elif option.lower() == "q":
-        exit(0)
+        main()
 
 
 def main():
