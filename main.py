@@ -6,7 +6,7 @@ import re
 import praw
 import requests
 from time import sleep
-from tools import blue, green, red, show_splash, argument, check_update
+from tools import blue, green, red, show_splash, argument, check_update, clear_screen
 
 VERSION = "1.0.0"
 class R3dditScrapper:
@@ -138,27 +138,48 @@ def setPath():
     with open("config.ini", "w") as f:
         config.write(f)
 
-
-
-def main():
-    create_config()
-    argument()
-    show_splash()
-    check_update()
+def getInput():
+    sub, limit, order, nsfw, path = '' , 0, 'hot', 'True', ''
     sub = input("Enter subreddit: ")
     try:
         limit = int(input("Number of photos: "))
     except ValueError:
         print(red("This is not a number, defaulting to 1"))
         limit = 1
-    order = input("Order (hot, top, new): ")
+    order = input("Order (hot, top, new), Options = o: ")
+    if order.lower() == "o":
+        options()
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    # ask if user wants to set the path
-    path = input("Set save path? (y/n): ")
-    if path.lower() == "y":
-        setPath()
+    return sub, limit, order, nsfw, path
+
+def options():
+    clear_screen()
+    # print the options
+    print(blue("\nOptions:\n"))
+    option = input("P: Set new Path\nV: View current set path: ")
+    if option.lower() == "p":
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        # check if save path is set
+        # read the path if it is set
+        if not config.has_section("Path"):
+            setPath()
+    elif option.lower() == "v":
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        if config.has_section("Path"):
+            print(green(config["Path"]["path"]))
+        else:
+            print(red("No path set"))
+        sleep(2)
+def main():
+    create_config()
+    argument()
+    show_splash()
+    check_update()
+    sub, limit, order, nsfw, path = getInput()
     # if the path is set use it
     config = configparser.ConfigParser()
     config.read("config.ini")
