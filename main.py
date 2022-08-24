@@ -167,7 +167,7 @@ def options():
     clear_screen()
     # print the options
     print(blue("\nOptions:\n"))
-    option = input("P: Set new Path\nV: View current set path: ")
+    option = input("P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: ")
     if option.lower() == "p":
         config = configparser.ConfigParser()
         config.read("config.ini")
@@ -183,13 +183,16 @@ def options():
         else:
             print(red("No path set"))
         sleep(2)
+    elif option.lower() == "c":
+        check_update()
+    elif option.lower() == "q":
+        exit(0)
 
 
 def main():
     create_config()
     argument()
     show_splash()
-    check_update()
     sub, limit, order, path = getInput()
     config = configparser.ConfigParser()
     config.read("config.ini")
