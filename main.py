@@ -2,15 +2,20 @@ import concurrent.futures as futures
 import configparser
 import os
 import re
+from time import sleep
 
 import praw
 import requests
-from time import sleep
-from tools import blue, green, red, show_splash, argument, check_update, clear_screen
+
+from tools import argument, blue, check_update, clear_screen, green, red, show_splash
 
 VERSION = "Alpha 0.1"
+
+
 class R3dditScrapper:
-    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None):
+    def __init__(
+        self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None
+    ):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -110,6 +115,7 @@ class R3dditScrapper:
             sleep(2)
             main()
 
+
 def create_config():
     """Create config file if it doesn't exist"""
     if not os.path.isfile("config.ini"):
@@ -119,6 +125,7 @@ def create_config():
         config.set("Reddit", "client_secret", input("Enter your client_secret: "))
         with open("config.ini", "w") as f:
             config.write(f)
+
 
 def setPath():
     """Set the path to download to"""
@@ -138,8 +145,9 @@ def setPath():
     with open("config.ini", "w") as f:
         config.write(f)
 
+
 def getInput():
-    sub, limit, order, nsfw, path = '' , 0, 'hot', 'True', ''
+    sub, limit, order, nsfw, path = "", 0, "hot", "True", ""
     sub = input("Enter subreddit: ")
     try:
         limit = int(input("Number of photos: "))
@@ -153,6 +161,7 @@ def getInput():
         print(red("Defaulting to hot"))
         order = "hot"
     return sub, limit, order, nsfw, path
+
 
 def options():
     clear_screen()
@@ -174,6 +183,8 @@ def options():
         else:
             print(red("No path set"))
         sleep(2)
+
+
 def main():
     create_config()
     argument()
