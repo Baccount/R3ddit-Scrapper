@@ -8,7 +8,7 @@ import requests
 from time import sleep
 from tools import blue, green, red, show_splash, argument, check_update, clear_screen
 
-VERSION = "0.0.1"
+VERSION = "Alpha 0.1"
 class R3dditScrapper:
     def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None):
         """
