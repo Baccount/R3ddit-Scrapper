@@ -48,14 +48,11 @@ def show_splash():
     """
     Display splash screen
     """
-    from main import VERSION
 
     clear_screen()
     title = "R3ddit\n Scrapper"
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
-    # add 10 spaces to the title
-    print(" " * 45 + red("v") + red(VERSION))
 
 
 def argument():
@@ -107,6 +104,7 @@ def argument():
 
 
 def check_update() -> bool:
+    # download latest version asynchronously
     """
     Check if there is a new version of the program from
     https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
@@ -122,9 +120,12 @@ def check_update() -> bool:
         )
         r = r.text.strip()
         if not r == VERSION:
+            print(" " * 45 + red(VERSION))
             print(f"There is a new version of the program: {r}")
-            print("https://github.com/Baccount/Reddit_Downloader")
+            print(blue("https://github.com/Baccount/Reddit_Downloader"))
             return True
+        else:
+            print(" " * 45 + red(VERSION))
         return True
     # trunk-ignore(flake8/E722)
     except:

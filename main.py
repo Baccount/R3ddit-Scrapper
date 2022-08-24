@@ -9,7 +9,7 @@ import requests
 
 from tools import argument, blue, check_update, clear_screen, green, red, show_splash
 
-VERSION = "Alpha 0.1"
+VERSION = "0.1"
 
 
 class R3dditScrapper:
@@ -147,7 +147,7 @@ def setPath():
 
 
 def getInput():
-    sub, limit, order, nsfw, path = "", 0, "hot", "True", ""
+    sub, limit, order, path = "", 0, "hot", ""
     sub = input("Enter subreddit: ")
     try:
         limit = int(input("Number of photos: "))
@@ -160,7 +160,7 @@ def getInput():
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    return sub, limit, order, nsfw, path
+    return sub, limit, order, path
 
 
 def options():
@@ -190,8 +190,7 @@ def main():
     argument()
     show_splash()
     check_update()
-    sub, limit, order, nsfw, path = getInput()
-    # if the path is set use it
+    sub, limit, order, path = getInput()
     config = configparser.ConfigParser()
     config.read("config.ini")
     if "Path" in config:
