@@ -81,7 +81,7 @@ def argument():
     nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
     path = parser.parse_args().path if parser.parse_args().path else None
     # join path with space fix https://stackoverflow.com/a/26990349
-    path = " ".join(path)
+    path = " ".join(path) if path else None
     print(f"Subreddit: {sub}")
     print(f"Limit: {limit}")
     print(f"Order: {order}")
@@ -89,7 +89,7 @@ def argument():
     print(f"Path: {path}")
     from main import R3dditScrapper
 
-    R3dditScrapper(sub, limit, order, nsfw, True, path).start()
+    R3dditScrapper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True, path=path).start()
 
 
 def check_update() -> bool:

@@ -14,7 +14,7 @@ VERSION = "0.1"
 
 class R3dditScrapper:
     def __init__(
-        self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None
+        self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None, test=False
     ):
         """
         It downloads images from a subreddit, and saves them to a folder
@@ -28,6 +28,7 @@ class R3dditScrapper:
 
         config = configparser.ConfigParser()
         config.read("config.ini")
+        self.test = test
         self.sub = sub
         self.limit = limit
         self.order = order
@@ -107,9 +108,12 @@ class R3dditScrapper:
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.get_images())
         print(green("\nDone"))
-        if self.argument:
+        if self.argument and not self.test:
             # exit after using terminal arguments
             exit(0)
+        elif self.test:
+            # for pytest
+            return None
         else:
             # restart the program if not using terminal arguments
             sleep(2)
