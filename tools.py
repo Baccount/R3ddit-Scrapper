@@ -95,8 +95,7 @@ def argument():
 def check_update() -> bool:
     # download latest version asynchronously
     """
-    Check if there is a new version of the program from
-    https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
+    Check if there is a new version of the program
     """
     # download async the version file
     try:

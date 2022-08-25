@@ -152,7 +152,7 @@ def setPath():
 
 def getInput():
     sub, limit, order, path = "", 0, "hot", ""
-    sub = input("Enter subreddit: ")
+    sub = input("Enter subreddit: ") if sub else "memes"
     try:
         limit = int(input("Number of photos: "))
     except ValueError:
