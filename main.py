@@ -142,7 +142,9 @@ def setPath():
     """Set the path to download to"""
     config = configparser.ConfigParser()
     config.read("config.ini")
-    config.add_section("Path")
+    # if path exists, use it
+    if not config["Path"]["path"]:
+        config.add_section("Path")
     config.set("Path", "path", input("Enter the path to download to: "))
     # check if the path exists
     # try to create the path if it doesn't exist

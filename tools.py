@@ -134,12 +134,7 @@ def options():
         "P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
     )
     if option.lower() == "p":
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        # check if save path is set
-        # read the path if it is set
-        if not config.has_section("Path"):
-            setPath()
+        setPath()
     elif option.lower() == "v":
         config = configparser.ConfigParser()
         config.read("config.ini")
@@ -152,3 +147,4 @@ def options():
         check_update()
     elif option.lower() == "q":
         main()
+    main()
