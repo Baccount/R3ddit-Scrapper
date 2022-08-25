@@ -74,10 +74,10 @@ def argument():
     # if no arguments are passed, return
     if len(sys.argv) == 1:
         return
-    ol = ["hot", "top", "new"]
+    sort = ["hot", "top", "new"]
     sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
     limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
-    order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
+    order = parser.parse_args().order if parser.parse_args().order in sort else "hot"
     nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
     path = parser.parse_args().path if parser.parse_args().path else None
     # join path with space fix https://stackoverflow.com/a/26990349
@@ -86,10 +86,12 @@ def argument():
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    print(f"Path: {path}")
+    print(f"Path: {path if path else 'Local directory'}")
     from main import R3dditScrapper
 
-    R3dditScrapper(sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True, path=path).start()
+    R3dditScrapper(
+        sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True, path=path
+    ).start()
 
 
 def check_update() -> bool:

@@ -1,7 +1,8 @@
 # import tools
+import configparser
+
 from main import R3dditScrapper
 from tools import check_update
-import configparser
 
 
 def test_check_update():
@@ -40,30 +41,3 @@ def test_download():
     )
     assert os.path.isfile("test.jpg") is True
     os.remove("test.jpg")
-
-
-def test_path_create():
-    """
-    Test multiple download function
-    """
-    import os
-    sub = "memes"
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-    path = config["Path"]["path"]
-    if path == "":
-        path = "images/"
-    savePath = path + '/' + sub
-    R3dditScrapper(sub=sub, limit=5, order='hot', nsfw='True', argument=True, path=path, test=True).start()
-    # check if the path exists
-    assert os.path.isdir(savePath) is True
-    # check if the path is not empty
-    assert os.listdir(savePath) is not []
-    # delete jpegs gifs and pngs from the path
-    print(os.listdir(savePath))
-    for file in os.listdir(savePath):
-        if file.endswith(".jpg") or file.endswith(".gif") or file.endswith(".png") or file.endswith(".jpeg"):
-            os.remove(path + sub + '/' +  file)
-    # if folder is empty delete it
-    if os.listdir(savePath) == []:
-        os.rmdir(savePath)

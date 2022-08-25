@@ -14,7 +14,14 @@ VERSION = "0.1"
 
 class R3dditScrapper:
     def __init__(
-        self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None, test=False
+        self,
+        sub="pics",
+        limit=1,
+        order="hot",
+        nsfw="True",
+        argument=False,
+        path=None,
+        test=False,
     ):
         """
         It downloads images from a subreddit, and saves them to a folder
@@ -152,7 +159,9 @@ def setPath():
 
 def getInput():
     sub, limit, order, path = "", 0, "hot", ""
-    sub = input("Enter subreddit: ") if sub else "memes"
+    sub = input("Enter subreddit: ")
+    if not sub:
+        sub = "pics"
     try:
         limit = int(input("Number of photos: "))
     except ValueError:
@@ -171,7 +180,9 @@ def options():
     clear_screen()
     # print the options
     print(blue("\nOptions:\n"))
-    option = input("P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: ")
+    option = input(
+        "P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
+    )
     if option.lower() == "p":
         config = configparser.ConfigParser()
         config.read("config.ini")
