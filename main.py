@@ -164,6 +164,8 @@ def getInput():
     sub = input("Enter subreddit, " + " " * 20 + red("O :Options\n") + ": ")
     if sub.lower() == "o":
         options()
+    if sub.lower() == "q":
+        exit(0)
     if not sub:
         sub = "pics"
     try:
