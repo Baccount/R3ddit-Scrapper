@@ -140,6 +140,7 @@ def options():
         config.read("config.ini")
         if config.has_section("Path"):
             print(green(config["Path"]["path"]))
+            input("Press Enter to continue: ")
         else:
             print(red("No path set"))
         sleep(2)
