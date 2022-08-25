@@ -6,7 +6,7 @@ import re
 import praw
 import requests
 
-from tools import argument, blue, green, red, show_splash, options
+from tools import argument, blue, green, options, red, show_splash
 
 VERSION = "0.1"
 
@@ -183,6 +183,7 @@ def getInput():
         print(red("Defaulting to hot"))
         order = "hot"
     return sub, limit, order, path
+
 
 def main():
     create_config()

@@ -1,7 +1,7 @@
 import argparse as ap
+import configparser
 import sys
 from time import sleep
-import configparser
 
 from pyfiglet import Figlet
 
@@ -125,8 +125,10 @@ def check_update() -> bool:
         print("Could not check for updates")
         return False
 
+
 def options():
-    from main import setPath, main, VERSION
+    from main import VERSION, main, setPath
+
     clear_screen()
     # print the options
     print(blue("\nOptions:\n"))

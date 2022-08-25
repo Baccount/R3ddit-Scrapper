@@ -1,6 +1,3 @@
-# import tools
-import configparser
-
 from main import R3dditScrapper
 from tools import check_update
 
