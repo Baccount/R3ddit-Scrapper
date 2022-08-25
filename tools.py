@@ -1,6 +1,7 @@
 import argparse as ap
 import sys
 from time import sleep
+import configparser
 
 from pyfiglet import Figlet
 
@@ -123,3 +124,31 @@ def check_update() -> bool:
     except:
         print("Could not check for updates")
         return False
+
+def options():
+    from main import setPath, main
+    clear_screen()
+    # print the options
+    print(blue("\nOptions:\n"))
+    option = input(
+        "P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
+    )
+    if option.lower() == "p":
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        # check if save path is set
+        # read the path if it is set
+        if not config.has_section("Path"):
+            setPath()
+    elif option.lower() == "v":
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        if config.has_section("Path"):
+            print(green(config["Path"]["path"]))
+        else:
+            print(red("No path set"))
+        sleep(2)
+    elif option.lower() == "c":
+        check_update()
+    elif option.lower() == "q":
+        main()

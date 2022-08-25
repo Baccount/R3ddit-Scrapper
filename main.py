@@ -7,7 +7,7 @@ from time import sleep
 import praw
 import requests
 
-from tools import argument, blue, check_update, clear_screen, green, red, show_splash
+from tools import argument, blue, green, red, show_splash, options
 
 VERSION = "0.1"
 
@@ -174,35 +174,6 @@ def getInput():
         print(red("Defaulting to hot"))
         order = "hot"
     return sub, limit, order, path
-
-
-def options():
-    clear_screen()
-    # print the options
-    print(blue("\nOptions:\n"))
-    option = input(
-        "P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
-    )
-    if option.lower() == "p":
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        # check if save path is set
-        # read the path if it is set
-        if not config.has_section("Path"):
-            setPath()
-    elif option.lower() == "v":
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        if config.has_section("Path"):
-            print(green(config["Path"]["path"]))
-        else:
-            print(red("No path set"))
-        sleep(2)
-    elif option.lower() == "c":
-        check_update()
-    elif option.lower() == "q":
-        main()
-
 
 def main():
     create_config()
