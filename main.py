@@ -102,7 +102,7 @@ class R3dditScrapper:
             print(red(str(e)))
             print(red("Subreddit not found"))
             # restart program if error occurs
-            sleep(2)
+            input("Press enter to continue: ")
             main()
 
     def make_dir(self, images):
@@ -114,7 +114,8 @@ class R3dditScrapper:
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.get_images())
-        print(green("\nDone"))
+        print(green("Saved images to " + self.path))
+        input("Press enter to continue: ")
         if self.argument and not self.test:
             # exit after using terminal arguments
             exit(0)
@@ -123,7 +124,6 @@ class R3dditScrapper:
             return None
         else:
             # restart the program if not using terminal arguments
-            sleep(2)
             main()
 
 
