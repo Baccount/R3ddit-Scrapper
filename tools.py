@@ -133,11 +133,11 @@ def options():
     # print the options
     print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
     option = input(
-        "S: Set path\nC: View current path \nU: Check for updates\nQ: Quit\n: "
+        "S: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
     )
     if option.lower() == "s":
         setPath()
-    elif option.lower() == "c":
+    elif option.lower() == "v":
         config = configparser.ConfigParser()
         config.read("config.ini")
         if config.has_section("Path"):
@@ -146,7 +146,7 @@ def options():
         else:
             print(red("No path set"))
         sleep(2)
-    elif option.lower() == "u":
+    elif option.lower() == "c":
         check_update()
     elif option.lower() == "q":
         main()
