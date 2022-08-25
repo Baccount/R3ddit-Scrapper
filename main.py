@@ -161,7 +161,9 @@ def setPath():
 
 def getInput():
     sub, limit, order, path = "", 0, "hot", ""
-    sub = input("Enter subreddit: ")
+    sub = input("Enter subreddit, " + " " * 20 + red("O :Options\n") + ": ")
+    if sub.lower() == "o":
+        options()
     if not sub:
         sub = "pics"
     try:
@@ -169,7 +171,7 @@ def getInput():
     except ValueError:
         print(red("This is not a number, defaulting to 1"))
         limit = 1
-    order = input("Order (hot, top, new), Options = o: ")
+    order = input("Order (hot, top, new): ")
     if order.lower() == "o":
         options()
     if order.lower() not in ["hot", "top", "new"]:
@@ -196,4 +198,4 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nExiting...")
-        exit()
+        exit(1)
