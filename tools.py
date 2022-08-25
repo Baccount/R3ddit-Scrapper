@@ -126,16 +126,16 @@ def check_update() -> bool:
         return False
 
 def options():
-    from main import setPath, main
+    from main import setPath, main, VERSION
     clear_screen()
     # print the options
     print(blue("\nOptions:\n"))
     option = input(
-        "P: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
+        "S: Set path\nC: View current path \nU: Check for updates\nV: Version\nQ: Quit\n: "
     )
-    if option.lower() == "p":
+    if option.lower() == "s":
         setPath()
-    elif option.lower() == "v":
+    elif option.lower() == "c":
         config = configparser.ConfigParser()
         config.read("config.ini")
         if config.has_section("Path"):
@@ -144,8 +144,12 @@ def options():
         else:
             print(red("No path set"))
         sleep(2)
-    elif option.lower() == "c":
+    elif option.lower() == "u":
         check_update()
+    elif option.lower() == "v":
+        clear_screen()
+        print(green(f"Version: {VERSION}"))
+        input("Press Enter to continue: ")
     elif option.lower() == "q":
         main()
     main()
