@@ -2,7 +2,6 @@ import concurrent.futures as futures
 import configparser
 import os
 import re
-from time import sleep
 
 import praw
 import requests
