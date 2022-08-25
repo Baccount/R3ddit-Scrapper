@@ -101,6 +101,8 @@ class R3dditScrapper:
             print(red(str(e)))
             print(red("Subreddit not found"))
             # restart program if error occurs
+            if self.argument:
+                exit(0)
             input("Press enter to continue: ")
             main()
 
@@ -114,7 +116,9 @@ class R3dditScrapper:
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.get_images())
         print(green("Saved images to " + self.path))
-        input("Press enter to continue: ")
+        if not self.argument:
+            # Not in terminal, show press enter to continue
+            input("Press enter to continue: ")
         if self.argument and not self.test:
             # exit after using terminal arguments
             exit(0)
