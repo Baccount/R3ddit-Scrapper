@@ -114,11 +114,11 @@ def check_update() -> bool:
             print(" " * 45 + red(VERSION))
             print(f"There is a new version of the program: {r}")
             print(blue("https://github.com/Baccount/Reddit_Downloader"))
-            sleep(2)
+            input("Press Enter to continue: ")
             return True
         else:
-            print(green("Currently running the latest version"))
-            print(" " * 45 + red(VERSION))
+            print(green(f"Currently running the latest version {red(VERSION)}"))
+            input("Press Enter to continue: ")
         return True
     # trunk-ignore(flake8/E722)
     except:
@@ -131,9 +131,9 @@ def options():
 
     clear_screen()
     # print the options
-    print(blue("\nOptions:\n"))
+    print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
     option = input(
-        "S: Set path\nC: View current path \nU: Check for updates\nV: Version\nQ: Quit\n: "
+        "S: Set path\nC: View current path \nU: Check for updates\nQ: Quit\n: "
     )
     if option.lower() == "s":
         setPath()
@@ -148,10 +148,6 @@ def options():
         sleep(2)
     elif option.lower() == "u":
         check_update()
-    elif option.lower() == "v":
-        clear_screen()
-        print(green(f"Version: {VERSION}"))
-        input("Press Enter to continue: ")
     elif option.lower() == "q":
         main()
     main()
