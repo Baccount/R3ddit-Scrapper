@@ -13,7 +13,7 @@ optional arguments:
 <br />
 <div align="center">
   <a href="https://github.com/Baccount/Y0utube_Wallpaper">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="screenshots/app.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Y0uTube Wallpaper</h3>
@@ -54,7 +54,7 @@ optional arguments:
 
 ## About The Project
 
-![Alt text](images/screenshot.png?raw=true "Optional Title")
+![Alt text](screenshots/app.png?raw=true "Optional Title")
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
