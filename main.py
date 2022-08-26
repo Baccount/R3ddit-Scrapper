@@ -164,7 +164,13 @@ def setPath():
 
 def getInput():
     sub, limit, order, path = "", 0, "hot", ""
-    sub = input("Enter subreddit " + " " * 20 + green("O :Options  ") + green("Q :Quit\n") + ": ")
+    sub = input(
+        "Enter subreddit "
+        + " " * 20
+        + green("O :Options  ")
+        + green("Q :Quit\n")
+        + ": "
+    )
     if sub.lower() == "o":
         options()
     if sub.lower() == "q":

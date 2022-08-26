@@ -95,7 +95,7 @@ def argument():
     ).start()
 
 
-def check_update() -> bool:
+def check_update(testing=False) -> bool:
     # download latest version asynchronously
     """
     Check if there is a new version of the program
@@ -118,8 +118,9 @@ def check_update() -> bool:
             return True
         else:
             print(green(f"Currently running the latest version {red(VERSION)}"))
-            input("Press Enter to continue: ")
-        return True
+            if not testing:
+                input("Press Enter to continue: ")
+            return True
     # trunk-ignore(flake8/E722)
     except:
         print("Could not check for updates")

@@ -6,7 +6,7 @@ def test_check_update():
     """
     Test check_update function
     """
-    assert check_update() is True
+    assert check_update(testing=True) is True
 
 
 def test_R3dditScrapper():

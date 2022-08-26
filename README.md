@@ -1,10 +1,10 @@
 Parsing the arguments passed by the user.
-    optional arguments:
-    -s --sub: The subreddit you want to download from
-    -l --limit: number of images to download
-    -o --order: hot, top, new
-    -n --nsfw: False = NO NSFW images
-    -p --path: The path you want to save to
+optional arguments:
+-s --sub: The subreddit you want to download from
+-l --limit: number of images to download
+-o --order: hot, top, new
+-n --nsfw: False = NO NSFW images
+-p --path: The path you want to save to
 
 <div id="top"></div>
 <!--
@@ -51,6 +51,7 @@ Parsing the arguments passed by the user.
 </details>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 ![Alt text](images/screenshot.png?raw=true "Optional Title")
@@ -61,21 +62,21 @@ Parsing the arguments passed by the user.
 
 First install the following:
 
-* <https://apps.apple.com/us/app/dynamic-wallpaper-engine/id1453504509?mt=12>
+- <https://apps.apple.com/us/app/dynamic-wallpaper-engine/id1453504509?mt=12>
 
-* Step 1
+- Step 1
 
   ```sh
   git clone https://github.com/Baccount/Y0utube_Wallpaper.git
   ```
 
-* Step 2
+- Step 2
 
   ```sh
   cd Y0utube_Wallpaper/
   ```
 
-* Step 3
+- Step 3
 
   ```sh
   pip3 install -r requirements.txt
@@ -84,6 +85,7 @@ First install the following:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -93,6 +95,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -109,6 +112,7 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
@@ -116,6 +120,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
+
 ## Contact
 
 Twitter - [@BaccountGit](https://twitter.com/BaccountGit) - Email - turns.spread_0m@icloud.com
@@ -125,10 +130,11 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
-* [youtube-dl](https://youtube-dl.org/)
-* [pyfiglet](https://github.com/pwaller/pyfiglet)
-* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+- [youtube-dl](https://youtube-dl.org/)
+- [pyfiglet](https://github.com/pwaller/pyfiglet)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
