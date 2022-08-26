@@ -20,7 +20,6 @@ class R3dditScrapper:
         nsfw="True",
         argument=False,
         path=None,
-        test=False,
     ):
         """
         It downloads images from a subreddit, and saves them to a folder
@@ -34,7 +33,6 @@ class R3dditScrapper:
 
         config = configparser.ConfigParser()
         config.read("config.ini")
-        self.test = test
         self.sub = sub
         self.limit = limit
         self.order = order
@@ -119,12 +117,9 @@ class R3dditScrapper:
         if not self.argument:
             # Not in terminal, show press enter to continue
             input("Press enter to continue: ")
-        if self.argument and not self.test:
+        if self.argument:
             # exit after using terminal arguments
             exit(0)
-        elif self.test:
-            # for pytest
-            return None
         else:
             # restart the program if not using terminal arguments
             main()
