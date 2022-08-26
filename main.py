@@ -5,12 +5,22 @@ import re
 
 import praw
 import requests
-from time import sleep
-from tools import blue, green, red, show_splash, argument, check_update
 
-VERSION = "1.0.0"
+from tools import argument, blue, green, options, red, show_splash
+
+VERSION = "0.1"
+
+
 class R3dditScrapper:
-    def __init__(self, sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None):
+    def __init__(
+        self,
+        sub="pics",
+        limit=1,
+        order="hot",
+        nsfw="True",
+        argument=False,
+        path=None,
+    ):
         """
         It downloads images from a subreddit, and saves them to a folder
         :param sub: The subreddit you want to download from
@@ -89,7 +99,9 @@ class R3dditScrapper:
             print(red(str(e)))
             print(red("Subreddit not found"))
             # restart program if error occurs
-            sleep(2)
+            if self.argument:
+                exit(0)
+            input("Press enter to continue: ")
             main()
 
     def make_dir(self, images):
@@ -101,14 +113,17 @@ class R3dditScrapper:
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.get_images())
-        print(green("\nDone"))
+        print(green("Saved images to " + self.path))
+        if not self.argument:
+            # Not in terminal, show press enter to continue
+            input("Press enter to continue: ")
         if self.argument:
             # exit after using terminal arguments
             exit(0)
         else:
             # restart the program if not using terminal arguments
-            sleep(2)
             main()
+
 
 def create_config():
     """Create config file if it doesn't exist"""
@@ -120,11 +135,14 @@ def create_config():
         with open("config.ini", "w") as f:
             config.write(f)
 
+
 def setPath():
     """Set the path to download to"""
     config = configparser.ConfigParser()
     config.read("config.ini")
-    config.add_section("Path")
+    # if path exists, use it
+    if not config["Path"]["path"]:
+        config.add_section("Path")
     config.set("Path", "path", input("Enter the path to download to: "))
     # check if the path exists
     # try to create the path if it doesn't exist
@@ -139,27 +157,40 @@ def setPath():
         config.write(f)
 
 
-
-def main():
-    create_config()
-    argument()
-    show_splash()
-    check_update()
-    sub = input("Enter subreddit: ")
+def getInput():
+    sub, limit, order, path = "", 0, "hot", ""
+    sub = input(
+        "Enter subreddit "
+        + " " * 20
+        + green("O :Options  ")
+        + green("Q :Quit\n")
+        + ": "
+    )
+    if sub.lower() == "o":
+        options()
+    if sub.lower() == "q":
+        exit(0)
+    if not sub:
+        sub = "pics"
     try:
         limit = int(input("Number of photos: "))
     except ValueError:
         print(red("This is not a number, defaulting to 1"))
         limit = 1
     order = input("Order (hot, top, new): ")
+    if order.lower() == "o":
+        options()
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    # ask if user wants to set the path
-    path = input("Set save path? (y/n): ")
-    if path.lower() == "y":
-        setPath()
-    # if the path is set use it
+    return sub, limit, order, path
+
+
+def main():
+    create_config()
+    argument()
+    show_splash()
+    sub, limit, order, path = getInput()
     config = configparser.ConfigParser()
     config.read("config.ini")
     if "Path" in config:
@@ -174,4 +205,4 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nExiting...")
-        exit()
+        exit(1)

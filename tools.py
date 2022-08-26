@@ -1,38 +1,28 @@
 import argparse as ap
+import configparser
 import sys
+from time import sleep
 
 from pyfiglet import Figlet
 
 
 def blue(text: str) -> str:
     """
-    `blue` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color blue.
+    `blue` takes a string and returns a blue string
     """
     return "\033[34m" + text + "\033[0m"
 
 
 def green(text: str) -> str:
     """
-    `green` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color green.
+    `green` takes a string and returns a green string
     """
     return "\033[32m" + text + "\033[0m"
 
 
 def red(text: str) -> str:
     """
-    `red` takes a string and returns a string
-
-    :param text: The text to be colored
-    :type text: str
-    :return: The text is being returned with the color red.
+    `red` takes a string and returns a red string
     """
     return "\033[31m" + text + "\033[0m"
 
@@ -48,14 +38,11 @@ def show_splash():
     """
     Display splash screen
     """
-    from main import VERSION
 
     clear_screen()
     title = "R3ddit\n Scrapper"
     f = Figlet(font="standard")
     print(blue(f.renderText(title)))
-    # add 10 spaces to the title
-    print(" " * 45 + red("v") + red(VERSION))
 
 
 def argument():
@@ -88,28 +75,30 @@ def argument():
     # if no arguments are passed, return
     if len(sys.argv) == 1:
         return
-    ol = ["hot", "top", "new"]
+    sort = ["hot", "top", "new"]
     sub = parser.parse_args().sub if parser.parse_args().sub else "pics"
     limit = int(parser.parse_args().limit) if parser.parse_args().limit else 1
-    order = parser.parse_args().order if parser.parse_args().order in ol else "hot"
+    order = parser.parse_args().order if parser.parse_args().order in sort else "hot"
     nsfw = parser.parse_args().nsfw if parser.parse_args().nsfw else "True"
     path = parser.parse_args().path if parser.parse_args().path else None
     # join path with space fix https://stackoverflow.com/a/26990349
-    path = " ".join(path)
+    path = " ".join(path) if path else None
     print(f"Subreddit: {sub}")
     print(f"Limit: {limit}")
     print(f"Order: {order}")
     print(f"NSFW: {nsfw}")
-    print(f"Path: {path}")
+    print(f"Path: {path if path else 'Local directory'}")
     from main import R3dditScrapper
 
-    R3dditScrapper(sub, limit, order, nsfw, True, path).start()
+    R3dditScrapper(
+        sub=sub, limit=limit, order=order, nsfw=nsfw, argument=True, path=path
+    ).start()
 
 
-def check_update() -> bool:
+def check_update(testing=False) -> bool:
+    # download latest version asynchronously
     """
-    Check if there is a new version of the program from
-    https://github.com/Baccount/Reddit_Downloader/blob/master/version.txt
+    Check if there is a new version of the program
     """
     # download async the version file
     try:
@@ -122,11 +111,44 @@ def check_update() -> bool:
         )
         r = r.text.strip()
         if not r == VERSION:
+            print(" " * 45 + red(VERSION))
             print(f"There is a new version of the program: {r}")
-            print("https://github.com/Baccount/Reddit_Downloader")
+            print(blue("https://github.com/Baccount/Reddit_Downloader"))
+            input("Press Enter to continue: ")
             return True
-        return True
+        else:
+            print(green(f"Currently running the latest version {red(VERSION)}"))
+            if not testing:
+                input("Press Enter to continue: ")
+            return True
     # trunk-ignore(flake8/E722)
     except:
         print("Could not check for updates")
         return False
+
+
+def options():
+    from main import VERSION, main, setPath
+
+    clear_screen()
+    # print the options
+    print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
+    option = input(
+        "S: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
+    )
+    if option.lower() == "s":
+        setPath()
+    elif option.lower() == "v":
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        if config.has_section("Path"):
+            print(green(config["Path"]["path"]))
+            input("Press Enter to continue: ")
+        else:
+            print(red("No path set"))
+        sleep(2)
+    elif option.lower() == "c":
+        check_update()
+    elif option.lower() == "q":
+        main()
+    main()
