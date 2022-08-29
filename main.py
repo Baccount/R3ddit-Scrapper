@@ -135,6 +135,8 @@ def create_config():
         with open("config.ini", "w") as f:
             config.write(f)
 
+def verifyReddit():
+    
 
 def setPath():
     """Set the path to download to"""
