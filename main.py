@@ -131,8 +131,10 @@ def create_config():
     if not os.path.isfile("config.ini"):
         config = configparser.ConfigParser()
         config.add_section("Reddit")
-        config.set("Reddit", "client_id", input("Enter your client_id: "))
-        config.set("Reddit", "client_secret", input("Enter your client_secret: "))
+        client_id = input("Enter your client_id: ")
+        config.set("Reddit", "client_id", client_id)
+        client_secret = input("Enter your client_secret: ")
+        config.set("Reddit", "client_secret", client_secret)
         with open("config.ini", "w") as f:
             config.write(f)
         if not verifyReddit(client_id, client_secret):
