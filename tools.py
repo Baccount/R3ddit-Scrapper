@@ -4,6 +4,7 @@ import sys
 import praw
 from time import sleep
 from prawcore.exceptions import ResponseException
+import os
 
 from pyfiglet import Figlet
 
@@ -169,3 +170,21 @@ def verifyReddit(client_id, client_secret):
         return True
     except ResponseException:
         return False
+
+
+def create_config():
+    """Create config file if it doesn't exist"""
+    if not os.path.isfile("config.ini"):
+        config = configparser.ConfigParser()
+        config.add_section("Reddit")
+        client_id = input("Enter your client_id: ")
+        config.set("Reddit", "client_id", client_id)
+        client_secret = input("Enter your client_secret: ")
+        config.set("Reddit", "client_secret", client_secret)
+        with open("config.ini", "w") as f:
+            config.write(f)
+        if not verifyReddit(client_id, client_secret):
+            # credentials are invalid
+            print(red("Invalid credentials"))
+            os.remove("config.ini")
+            create_config()
