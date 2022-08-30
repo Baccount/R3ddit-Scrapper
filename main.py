@@ -61,7 +61,7 @@ class R3dditScrapper:
         except Exception as e:
             print(e)
 
-    def set_order(self):
+    def setOrder(self):
         """Set the order of the images to download"""
         if self.order == "hot":
             return self.reddit.subreddit(self.sub).hot(limit=None)
@@ -70,12 +70,12 @@ class R3dditScrapper:
         elif self.order == "new":
             return self.reddit.subreddit(self.sub).new(limit=None)
 
-    def get_images(self) -> list:
+    def getImages(self) -> list:
         """Get the images from the subreddit"""
         images = []
         try:
             go = 0
-            submissions = self.set_order()
+            submissions = self.setOrder()
             for submission in submissions:
                 if (
                     not submission.stickied
@@ -113,7 +113,7 @@ class R3dditScrapper:
     def start(self):
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
-            executor.map(self.download, self.get_images())
+            executor.map(self.download, self.getImages())
         print(green("Saved images to " + self.path))
         if not self.argument:
             # Not in terminal, show press enter to continue
@@ -161,6 +161,7 @@ def verifyReddit(client_id, client_secret):
 
 
 def setPath():
+    print(blue("Enter the path you want to save to"))
     """Set the path to download to"""
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -225,6 +226,7 @@ def main():
 
 
 if __name__ == "__main__":
+    setPath()
     try:
         main()
     except KeyboardInterrupt:
