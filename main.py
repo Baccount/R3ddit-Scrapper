@@ -12,6 +12,12 @@ VERSION = "0.1"
 
 
 class R3dditScrapper:
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    try:
+        path = config["Path"]["path"]
+    except KeyError:
+        path = None
     def __init__(
         self,
         sub="pics",
@@ -19,7 +25,7 @@ class R3dditScrapper:
         order="hot",
         nsfw="True",
         argument=False,
-        path=None,
+        path=path,
     ):
         """
         It downloads images from a subreddit, and saves them to a folder
@@ -31,15 +37,13 @@ class R3dditScrapper:
         :param folder: The path you want to save to, defaults to the subreddit name (optional)
         """
 
-        config = configparser.ConfigParser()
-        config.read("config.ini")
         self.sub = sub
         self.limit = limit
         self.order = order
         self.argument = argument
         self.path = f"images/{self.sub}/" if not path else f"{path}/{self.sub}/"
-        client_id = config["Reddit"]["client_id"]
-        client_secret = config["Reddit"]["client_secret"]
+        client_id = self.config["Reddit"]["client_id"]
+        client_secret = self.config["Reddit"]["client_secret"]
         user_agent = (
             "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
         )
@@ -130,13 +134,7 @@ def main():
     argument()
     show_splash()
     sub, limit, order, path = getInput()
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-    if "Path" in config:
-        path = config["Path"]["path"]
-        R3dditScrapper(sub, limit, order, path=path).start()
-    else:
-        R3dditScrapper(sub, limit, order).start()
+    R3dditScrapper(sub, limit, order).start()
 
 
 if __name__ == "__main__":
