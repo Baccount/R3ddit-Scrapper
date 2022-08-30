@@ -188,3 +188,19 @@ def create_config():
             print(red("Invalid credentials"))
             os.remove("config.ini")
             create_config()
+
+def setPath():
+    print(blue("Enter the path you want to save to"))
+    """Set the path to download to"""
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    # if path exists, use it
+    if not config.has_section(section="Path"):
+        config.add_section("Path")
+    config.set("Path", "path", input("Enter the path to download to: "))
+    # check if path exists
+    if not os.path.exists(config["Path"]["path"]):
+            print(red("Path does not exist"))
+            setPath()
+    with open("config.ini", "w") as f:
+        config.write(f)
