@@ -204,3 +204,32 @@ def setPath():
             setPath()
     with open("config.ini", "w") as f:
         config.write(f)
+
+
+def getInput():
+    sub, limit, order, path = "", 0, "hot", ""
+    sub = input(
+        "Enter subreddit "
+        + " " * 20
+        + green("O :Options  ")
+        + green("Q :Quit\n")
+        + ": "
+    )
+    if sub.lower() == "o":
+        options()
+    if sub.lower() == "q":
+        exit(0)
+    if not sub:
+        sub = "pics"
+    try:
+        limit = int(input("Number of photos: "))
+    except ValueError:
+        print(red("This is not a number, defaulting to 1"))
+        limit = 1
+    order = input("Order (hot, top, new): ")
+    if order.lower() == "o":
+        options()
+    if order.lower() not in ["hot", "top", "new"]:
+        print(red("Defaulting to hot"))
+        order = "hot"
+    return sub, limit, order, path

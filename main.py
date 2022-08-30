@@ -6,7 +6,7 @@ import re
 import praw
 import requests
 
-from tools import argument, blue, green, options, red, show_splash, create_config, setPath
+from tools import argument, blue, green, red, show_splash, getInput, create_config
 
 VERSION = "0.1"
 
@@ -123,35 +123,6 @@ class R3dditScrapper:
         else:
             # restart the program if not using terminal arguments
             main()
-
-
-def getInput():
-    sub, limit, order, path = "", 0, "hot", ""
-    sub = input(
-        "Enter subreddit "
-        + " " * 20
-        + green("O :Options  ")
-        + green("Q :Quit\n")
-        + ": "
-    )
-    if sub.lower() == "o":
-        options()
-    if sub.lower() == "q":
-        exit(0)
-    if not sub:
-        sub = "pics"
-    try:
-        limit = int(input("Number of photos: "))
-    except ValueError:
-        print(red("This is not a number, defaulting to 1"))
-        limit = 1
-    order = input("Order (hot, top, new): ")
-    if order.lower() == "o":
-        options()
-    if order.lower() not in ["hot", "top", "new"]:
-        print(red("Defaulting to hot"))
-        order = "hot"
-    return sub, limit, order, path
 
 
 def main():
