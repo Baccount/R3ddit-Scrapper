@@ -166,17 +166,12 @@ def setPath():
     config = configparser.ConfigParser()
     config.read("config.ini")
     # if path exists, use it
-    if not config["Path"]["path"]:
+    if not config.has_section(section="Path"):
         config.add_section("Path")
     config.set("Path", "path", input("Enter the path to download to: "))
-    # check if the path exists
-    # try to create the path if it doesn't exist
+    # check if path exists
     if not os.path.exists(config["Path"]["path"]):
-        try:
-            os.makedirs(config["Path"]["path"])
-        # catch incorrect path error
-        except Exception as e:
-            print(e)
+            print(red("Path does not exist"))
             setPath()
     with open("config.ini", "w") as f:
         config.write(f)
