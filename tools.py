@@ -1,7 +1,9 @@
 import argparse as ap
 import configparser
 import sys
+import praw
 from time import sleep
+from prawcore.exceptions import ResponseException
 
 from pyfiglet import Figlet
 
@@ -152,3 +154,18 @@ def options():
     elif option.lower() == "q":
         main()
     main()
+
+def verifyReddit(client_id, client_secret):
+    """Verify the reddit credentials"""
+    reddit = praw.Reddit(
+        client_id=client_id,
+        client_secret=client_secret,
+        user_agent=(
+            "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        ),
+    )
+    try:
+        reddit.auth.scopes()
+        return True
+    except ResponseException:
+        return False

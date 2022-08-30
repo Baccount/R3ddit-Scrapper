@@ -5,9 +5,8 @@ import re
 
 import praw
 import requests
-from prawcore.exceptions import ResponseException
 
-from tools import argument, blue, green, options, red, show_splash
+from tools import argument, blue, green, options, red, show_splash, verifyReddit
 
 VERSION = "0.1"
 
@@ -142,22 +141,6 @@ def create_config():
             print(red("Invalid credentials"))
             os.remove("config.ini")
             create_config()
-
-
-def verifyReddit(client_id, client_secret):
-    """Verify the reddit credentials"""
-    reddit = praw.Reddit(
-        client_id=client_id,
-        client_secret=client_secret,
-        user_agent=(
-            "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
-        ),
-    )
-    try:
-        reddit.auth.scopes()
-        return True
-    except ResponseException:
-        return False
 
 
 def setPath():
