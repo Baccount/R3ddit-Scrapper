@@ -5,6 +5,7 @@ import re
 
 import praw
 import requests
+from prawcore.exceptions import ResponseException
 
 from tools import argument, blue, green, options, red, show_splash
 
@@ -134,9 +135,45 @@ def create_config():
         config.set("Reddit", "client_secret", input("Enter your client_secret: "))
         with open("config.ini", "w") as f:
             config.write(f)
+        if not verifyReddit():
+            print(red("Invalid credentials"))
+            os.remove("config.ini")
+            create_config()
 
 def verifyReddit():
-    
+    """Verify the reddit credentials"""
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    client_id = config["Reddit"]["client_id"]
+    client_secret = config["Reddit"]["client_secret"]
+    reddit = praw.Reddit(
+    client_id=client_id,
+    client_secret=client_secret,
+    user_agent = (
+            "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        ),
+    )
+    try:
+        reddit.auth.scopes()
+        return True
+    except ResponseException:
+        return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def setPath():
     """Set the path to download to"""
