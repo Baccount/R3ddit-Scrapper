@@ -1,11 +1,11 @@
 import argparse as ap
 import configparser
-import sys
-import praw
-from time import sleep
-from prawcore.exceptions import ResponseException
 import os
+import sys
+from time import sleep
 
+import praw
+from prawcore.exceptions import ResponseException
 from pyfiglet import Figlet
 
 
@@ -156,6 +156,7 @@ def options():
         main()
     main()
 
+
 def verifyReddit(client_id, client_secret):
     """Verify the reddit credentials"""
     reddit = praw.Reddit(
@@ -189,6 +190,7 @@ def create_config():
             os.remove("config.ini")
             create_config()
 
+
 def setPath():
     print(blue("Enter the path you want to save to"))
     """Set the path to download to"""
@@ -200,8 +202,8 @@ def setPath():
     config.set("Path", "path", input("Enter the path to download to: "))
     # check if path exists
     if not os.path.exists(config["Path"]["path"]):
-            print(red("Path does not exist"))
-            setPath()
+        print(red("Path does not exist"))
+        setPath()
     with open("config.ini", "w") as f:
         config.write(f)
 

@@ -6,7 +6,7 @@ import re
 import praw
 import requests
 
-from tools import argument, blue, green, red, show_splash, getInput, create_config
+from tools import argument, blue, create_config, getInput, green, red, show_splash
 
 VERSION = "0.1"
 
@@ -18,6 +18,7 @@ class R3dditScrapper:
         path = config["Path"]["path"]
     except KeyError:
         path = None
+
     def __init__(
         self,
         sub="pics",
