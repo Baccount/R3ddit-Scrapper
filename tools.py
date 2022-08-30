@@ -131,7 +131,7 @@ def check_update(testing=False) -> bool:
 
 
 def options():
-    from main import VERSION, main, setPath
+    from main import VERSION, main
 
     clear_screen()
     # print the options
