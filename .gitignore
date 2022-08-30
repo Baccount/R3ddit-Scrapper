@@ -6,3 +6,5 @@ config.ini
 __pycache__/main.cpython-310.pyc
 __pycache__/test_func.cpython-310-pytest-7.1.2.pyc
 __pycache__/tools.cpython-310.pyc
+.markdownlint.yaml
+.vscode/settings.json
