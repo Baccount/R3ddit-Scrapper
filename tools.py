@@ -37,7 +37,7 @@ def clear_screen():
     print("\n" * 25)
 
 
-def show_splash():
+def showSplash():
     """
     Display splash screen
     """
