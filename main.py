@@ -107,7 +107,7 @@ class R3dditScrapper:
                 # exit after using terminal arguments
                 exit(0)
             input("Press enter to continue: ")
-            main()
+            main(skip=True)
 
     def make_dir(self, images):
         if len(images):
@@ -127,12 +127,14 @@ class R3dditScrapper:
             exit(0)
         else:
             # restart the program if not using terminal arguments
-            main()
+            main(skip=True)
 
 
-def main():
-    create_config()
-    argument()
+def main(skip=False):
+    # skip if called from another function
+    if not skip:
+        create_config()
+        argument()
     showSplash()
     sub, limit, order, path = getInput()
     R3dditScrapper(sub, limit, order).start()

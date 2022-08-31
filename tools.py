@@ -153,8 +153,8 @@ def options():
     elif option.lower() == "c":
         check_update()
     elif option.lower() == "q":
-        main()
-    main()
+        main(skip=True)
+    main(skip=True)
 
 
 def verifyReddit(client_id, client_secret):
