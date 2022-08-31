@@ -6,7 +6,7 @@ import re
 import praw
 import requests
 
-from tools import argument, blue, create_config, getInput, green, red, show_splash
+from tools import argument, blue, create_config, getInput, green, red, showSplash
 
 VERSION = "0.1"
 
@@ -26,7 +26,7 @@ class R3dditScrapper:
         order="hot",
         nsfw="True",
         argument=False,
-        path=path,
+        path=path if path else None,
     ):
         """
         It downloads images from a subreddit, and saves them to a folder
@@ -103,8 +103,8 @@ class R3dditScrapper:
         except Exception as e:
             print(red(str(e)))
             print(red("Subreddit not found"))
-            # restart program if error occurs
             if self.argument:
+                # exit after using terminal arguments
                 exit(0)
             input("Press enter to continue: ")
             main()
@@ -133,7 +133,7 @@ class R3dditScrapper:
 def main():
     create_config()
     argument()
-    show_splash()
+    showSplash()
     sub, limit, order, path = getInput()
     R3dditScrapper(sub, limit, order).start()
 
