@@ -1,6 +1,14 @@
-from main import R3dditScrapper
-from functions.tools import check_update
+import os
+
+# import main from parent directory
+import sys
 from configparser import ConfigParser
+
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+# trunk-ignore(flake8/E402)
+from functions.tools import check_update
+# trunk-ignore(flake8/E402)
+from main import R3dditScrapper
 
 
 def test_check_update():

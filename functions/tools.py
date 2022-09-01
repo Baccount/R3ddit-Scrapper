@@ -194,7 +194,7 @@ def create_config():
 def setPath():
     config = configparser.ConfigParser()
     config.read("config.ini")
-    print(blue("Enter the path you want to save to" + 20 * " " +red("R: Reset path")))
+    print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path")))
     path = input("Enter the path to download to: ")
     """Set the path to download to"""
     if path.lower() == "r":

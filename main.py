@@ -6,13 +6,20 @@ import re
 import praw
 import requests
 
-from functions.tools import argument, blue, create_config, getInput, green, red, showSplash
+from functions.tools import (
+    argument,
+    blue,
+    create_config,
+    getInput,
+    green,
+    red,
+    showSplash,
+)
 
 VERSION = "0.1"
 
 
 class R3dditScrapper:
-
     def __init__(
         self,
         sub="pics",
