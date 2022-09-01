@@ -33,10 +33,13 @@ class R3dditScrapper:
         """
         self.config = configparser.ConfigParser()
         self.config.read("config.ini")
-        try:
-            path = self.config["Path"]["path"]
-        except KeyError:
-            path = None
+        if not path:
+            try:
+                # Prioritize arguments path over config path
+                path = self.config["Path"]["path"]
+            except KeyError:
+                path = None
+        print(path)
         self.sub = sub
         self.limit = limit
         self.order = order

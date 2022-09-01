@@ -1,5 +1,6 @@
 from main import R3dditScrapper
 from functions.tools import check_update
+from configparser import ConfigParser
 
 
 def test_check_update():
@@ -14,7 +15,7 @@ def test_R3dditScrapper():
     Test R3dditScrapper class
     """
     scrapper = R3dditScrapper(
-        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None
+        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path="images"
     )
     assert scrapper.sub == "pics"
     assert scrapper.limit == 1
@@ -22,6 +23,13 @@ def test_R3dditScrapper():
     assert scrapper.nsfw is True
     assert scrapper.argument is False
     assert scrapper.path == "images/pics/"
+    config = ConfigParser()
+    config.read("config.ini")
+    path = config["Path"]["path"]
+    scrapper = R3dditScrapper(
+        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=path
+    )
+    assert scrapper.path == path + "/" + "pics/"
 
 
 def test_download():
