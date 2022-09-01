@@ -46,7 +46,6 @@ class R3dditScrapper:
                 path = self.config["Path"]["path"]
             except KeyError:
                 path = None
-        print(path)
         self.sub = sub
         self.limit = limit
         self.order = order
