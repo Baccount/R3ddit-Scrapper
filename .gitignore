@@ -8,3 +8,8 @@ __pycache__/test_func.cpython-310-pytest-7.1.2.pyc
 __pycache__/tools.cpython-310.pyc
 .markdownlint.yaml
 .vscode/settings.json
+.DS_Store
+__pycache__/__init__.cpython-310.pyc
+functions/__pycache__/__init__.cpython-310.pyc
+functions/__pycache__/test_func.cpython-310-pytest-7.1.2.pyc
+functions/__pycache__/tools.cpython-310.pyc

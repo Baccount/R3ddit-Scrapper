@@ -192,14 +192,23 @@ def create_config():
 
 
 def setPath():
-    print(blue("Enter the path you want to save to"))
-    """Set the path to download to"""
     config = configparser.ConfigParser()
     config.read("config.ini")
+    print(blue("Enter the path you want to save to" + 20 * " " +red("R: Reset path")))
+    path = input("Enter the path to download to: ")
+    """Set the path to download to"""
+    if path.lower() == "r":
+        if config.has_section("Path"):
+            config.remove_section("Path")
+            with open("config.ini", "w") as f:
+                config.write(f)
+        print(green("Path has been reset"))
+        input("Press Enter to continue: ")
+        return
     # if path exists, use it
     if not config.has_section(section="Path"):
         config.add_section("Path")
-    config.set("Path", "path", input("Enter the path to download to: "))
+    config.set("Path", "path", path)
     # check if path exists
     if not os.path.exists(config["Path"]["path"]):
         print(red("Path does not exist"))
