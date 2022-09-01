@@ -1,5 +1,5 @@
 from main import R3dditScrapper
-from tools import check_update
+from functions.tools import check_update
 
 
 def test_check_update():
