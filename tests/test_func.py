@@ -1,6 +1,4 @@
 import os
-
-# import main from parent directory
 import sys
 from configparser import ConfigParser
 
