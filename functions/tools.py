@@ -137,7 +137,7 @@ def options():
     # print the options
     print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
     option = input(
-        "S: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
+        "S: Set path\nV: View current path \nC: Check for updates\nR: Reset All Settings\nQ: Quit\n: "
     )
     if option.lower() == "s":
         setPath()
@@ -152,10 +152,23 @@ def options():
         sleep(2)
     elif option.lower() == "c":
         check_update()
+    elif option.lower() == "r":
+        reset()
     elif option.lower() == "q":
         main(skip=True)
     main(skip=True)
 
+def reset():
+    """
+    Reset all settings
+    """
+    from main import main
+    try:
+        os.remove("config.ini")
+        print(green("Settings reset"))
+        main(skip=False)
+    except FileNotFoundError:
+        print(red("Could not reset settings"))
 
 def verifyReddit(client_id, client_secret):
     """Verify the reddit credentials"""
