@@ -31,7 +31,11 @@ def test_R3dditScrapper():
     assert scrapper.path == "images/pics/"
     config = ConfigParser()
     config.read("config.ini")
-    path = config["Path"]["path"]
+    try:
+        # Prioritize arguments path over config path
+        path = config["Path"]["path"]
+    except KeyError:
+        path = "images"
     scrapper = R3dditScrapper(
         sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=path
     )
