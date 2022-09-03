@@ -170,7 +170,7 @@ def reset():
     except FileNotFoundError:
         print(red("Could not reset settings"))
 
-def verifyReddit(client_id, client_secret):
+def verifyReddit(client_id, client_secret) -> bool:
     """Verify the reddit credentials"""
     reddit = praw.Reddit(
         client_id=client_id,
@@ -230,7 +230,7 @@ def setPath():
         config.write(f)
 
 
-def getInput():
+def getInput() -> str:
     sub, limit, order= "", 0, "hot"
     sub = input(
         "Enter subreddit "
