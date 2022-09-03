@@ -231,7 +231,7 @@ def setPath():
 
 
 def getInput():
-    sub, limit, order, path = "", 0, "hot", ""
+    sub, limit, order= "", 0, "hot"
     sub = input(
         "Enter subreddit "
         + " " * 20
@@ -256,4 +256,4 @@ def getInput():
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    return sub, limit, order, path
+    return sub, limit, order

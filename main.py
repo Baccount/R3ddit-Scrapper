@@ -144,7 +144,7 @@ def main(skip=False):
         create_config()
         argument()
     showSplash()
-    sub, limit, order, path = getInput()
+    sub, limit, order = getInput()
     R3dditScrapper(sub, limit, order).start()
 
 
