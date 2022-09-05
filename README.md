@@ -1,3 +1,6 @@
+WIP
+
+
 Parsing the arguments passed by the user.
 optional arguments:
 -s --sub: The subreddit you want to download from
