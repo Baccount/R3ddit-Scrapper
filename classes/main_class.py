@@ -6,8 +6,8 @@ import re
 import praw
 import requests
 
-from functions.tools import (
-    blue, clear_screen, green, red, showSplash, getInput, create_config, check_update)
+from functions.tools import blue, green, red
+
 
 class R3dditScrapper:
     def __init__(
@@ -75,6 +75,7 @@ class R3dditScrapper:
     def getImages(self) -> list:
         """Get the images from the subreddit"""
         from main import main
+
         images = []
         try:
             go = 0
@@ -115,6 +116,7 @@ class R3dditScrapper:
 
     def start(self):
         from main import main
+
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.getImages())

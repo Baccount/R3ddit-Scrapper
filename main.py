@@ -1,8 +1,8 @@
-from functions import *
-
 from classes.main_class import R3dditScrapper
+from functions import argument, create_config, getInput, showSplash
 
-VERSION = "0.1"
+VERSION = "0.2"
+
 
 def main(skip=False):
     # skip if called from another function

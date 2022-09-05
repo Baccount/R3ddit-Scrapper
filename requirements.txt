@@ -1,0 +1,5 @@
+argparse
+configparser
+praw
+pyfiglet
+requests
