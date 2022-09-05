@@ -6,15 +6,7 @@ import re
 import praw
 import requests
 
-from functions.tools import (
-    argument,
-    blue,
-    create_config,
-    getInput,
-    green,
-    red,
-    showSplash,
-)
+from functions import *
 
 VERSION = "0.1"
 
