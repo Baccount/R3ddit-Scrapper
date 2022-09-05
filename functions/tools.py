@@ -1,8 +1,11 @@
 import argparse as ap
 import configparser
+import os
 import sys
 from time import sleep
 
+import praw
+from prawcore.exceptions import ResponseException
 from pyfiglet import Figlet
 
 
@@ -34,7 +37,7 @@ def clear_screen():
     print("\n" * 25)
 
 
-def show_splash():
+def showSplash():
     """
     Display splash screen
     """
@@ -128,13 +131,13 @@ def check_update(testing=False) -> bool:
 
 
 def options():
-    from main import VERSION, main, setPath
+    from main import VERSION, main
 
     clear_screen()
     # print the options
     print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
     option = input(
-        "S: Set path\nV: View current path \nC: Check for updates\nQ: Quit\n: "
+        "S: Set path\nV: View current path \nC: Check for updates\nR: Reset All Settings\nQ: Quit\n: "
     )
     if option.lower() == "s":
         setPath()
@@ -144,11 +147,134 @@ def options():
         if config.has_section("Path"):
             print(green(config["Path"]["path"]))
             input("Press Enter to continue: ")
+            options()
         else:
             print(red("No path set"))
         sleep(2)
     elif option.lower() == "c":
         check_update()
+    elif option.lower() == "r":
+        reset()
     elif option.lower() == "q":
-        main()
-    main()
+        main(skip=True)
+    main(skip=True)
+
+
+def reset():
+    """
+    Reset all settings
+    """
+    from main import main
+
+    try:
+        os.remove("config.ini")
+        print(green("Settings reset"))
+        main(skip=False)
+    except FileNotFoundError:
+        print(red("Could not reset settings"))
+
+
+def verifyReddit(client_id, client_secret) -> bool:
+    """Verify the reddit credentials"""
+    reddit = praw.Reddit(
+        client_id=client_id,
+        client_secret=client_secret,
+        user_agent=(
+            "R3dditScrapper / https://github.com/Baccount/Reddit_Downloader/tree/master"
+        ),
+    )
+    try:
+        reddit.auth.scopes()
+        return True
+    except ResponseException:
+        return False
+
+
+def create_config():
+    """Create config file if it doesn't exist"""
+    if not os.path.isfile("config.ini"):
+        config = configparser.ConfigParser()
+        config.add_section("Reddit")
+        client_id = input("Enter your client_id: ")
+        config.set("Reddit", "client_id", client_id)
+        client_secret = input("Enter your client_secret: ")
+        config.set("Reddit", "client_secret", client_secret)
+        with open("config.ini", "w") as f:
+            config.write(f)
+        if not verifyReddit(client_id, client_secret):
+            # credentials are invalid
+            print(red("Invalid credentials"))
+            os.remove("config.ini")
+            create_config()
+
+
+def setPath():
+    clear_screen()
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n")))
+    print("D: Downloads")
+    print("DO: Documents")
+    print("DT: Desktop")
+    print("Q: Quit")
+    path = input("Enter the path to download to: ")
+    """Set the path to download to"""
+    if path.lower() == "r":
+        if config.has_section("Path"):
+            config.remove_section("Path")
+            with open("config.ini", "w") as f:
+                config.write(f)
+        print(green("Path has been reset"))
+        input("Press Enter to continue: ")
+        options()
+    elif path.lower() == "d":
+        # set download path to download folder
+        path = os.path.join(os.path.expanduser("~"), "Downloads")
+    elif path.lower() == "do":
+        # set download path to documents folder
+        path = os.path.join(os.path.expanduser("~"), "Documents")
+    elif path.lower() == "dt":
+        # set download path to desktop folder
+        path = os.path.join(os.path.expanduser("~"), "Desktop")
+    elif path.lower() == "q":
+        options()
+    # if path exists, use it
+    if not config.has_section(section="Path"):
+        config.add_section("Path")
+    config.set("Path", "path", path)
+    # check if path exists
+    if not os.path.exists(config["Path"]["path"]):
+        print(red("Path does not exist"))
+        setPath()
+    with open("config.ini", "w") as f:
+        config.write(f)
+    options()
+
+
+def getInput() -> str:
+    sub, limit, order = "", 0, "hot"
+    sub = input(
+        "Enter subreddit "
+        + " " * 20
+        + green("O :Options  ")
+        + green("Q :Quit\n")
+        + ": "
+    )
+    if sub.lower() == "o":
+        options()
+    if sub.lower() == "q":
+        exit(0)
+    if not sub:
+        sub = "pics"
+    try:
+        limit = int(input("Number of photos: "))
+    except ValueError:
+        print(red("This is not a number, defaulting to 1"))
+        limit = 1
+    order = input("Order (hot, top, new): ")
+    if order.lower() == "o":
+        options()
+    if order.lower() not in ["hot", "top", "new"]:
+        print(red("Defaulting to hot"))
+        order = "hot"
+    return sub, limit, order

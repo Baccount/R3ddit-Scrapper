@@ -1,0 +1,1 @@
+from classes.main_class import R3dditScrapper

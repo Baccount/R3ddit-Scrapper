@@ -1,5 +1,13 @@
-from main import R3dditScrapper
-from tools import check_update
+import os
+import sys
+from configparser import ConfigParser
+
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+# trunk-ignore(flake8/E402)
+from functions.tools import check_update
+
+# trunk-ignore(flake8/E402)
+from classes.main_class import R3dditScrapper
 
 
 def test_check_update():
@@ -14,7 +22,7 @@ def test_R3dditScrapper():
     Test R3dditScrapper class
     """
     scrapper = R3dditScrapper(
-        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None
+        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path="images"
     )
     assert scrapper.sub == "pics"
     assert scrapper.limit == 1
@@ -22,6 +30,17 @@ def test_R3dditScrapper():
     assert scrapper.nsfw is True
     assert scrapper.argument is False
     assert scrapper.path == "images/pics/"
+    config = ConfigParser()
+    config.read("config.ini")
+    try:
+        # Prioritize arguments path over config path
+        path = config["Path"]["path"]
+    except KeyError:
+        path = "images"
+    scrapper = R3dditScrapper(
+        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=path
+    )
+    assert scrapper.path == path + "/" + "pics/"
 
 
 def test_download():
