@@ -158,17 +158,20 @@ def options():
         main(skip=True)
     main(skip=True)
 
+
 def reset():
     """
     Reset all settings
     """
     from main import main
+
     try:
         os.remove("config.ini")
         print(green("Settings reset"))
         main(skip=False)
     except FileNotFoundError:
         print(red("Could not reset settings"))
+
 
 def verifyReddit(client_id, client_secret) -> bool:
     """Verify the reddit credentials"""
@@ -231,7 +234,7 @@ def setPath():
 
 
 def getInput() -> str:
-    sub, limit, order= "", 0, "hot"
+    sub, limit, order = "", 0, "hot"
     sub = input(
         "Enter subreddit "
         + " " * 20

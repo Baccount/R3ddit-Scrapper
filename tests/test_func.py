@@ -5,6 +5,7 @@ from configparser import ConfigParser
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 # trunk-ignore(flake8/E402)
 from functions.tools import check_update
+
 # trunk-ignore(flake8/E402)
 from main import R3dditScrapper
 
