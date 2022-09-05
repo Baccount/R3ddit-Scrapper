@@ -147,6 +147,7 @@ def options():
         if config.has_section("Path"):
             print(green(config["Path"]["path"]))
             input("Press Enter to continue: ")
+            options()
         else:
             print(red("No path set"))
         sleep(2)
@@ -208,9 +209,14 @@ def create_config():
 
 
 def setPath():
+    clear_screen()
     config = configparser.ConfigParser()
     config.read("config.ini")
-    print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path")))
+    print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n")))
+    print("D: Downloads folder")
+    print("DO: Documents folder")
+    print("DT: Desktop folder")
+    print("Q: Quit")
     path = input("Enter the path to download to: ")
     """Set the path to download to"""
     if path.lower() == "r":
@@ -220,7 +226,18 @@ def setPath():
                 config.write(f)
         print(green("Path has been reset"))
         input("Press Enter to continue: ")
-        return
+        options()
+    elif path.lower() == "d":
+        # set download path to download folder
+        path = os.path.join(os.path.expanduser("~"), "Downloads")
+    elif path.lower() == "do":
+        # set download path to documents folder
+        path = os.path.join(os.path.expanduser("~"), "Documents")
+    elif path.lower() == "dt":
+        # set download path to desktop folder
+        path = os.path.join(os.path.expanduser("~"), "Desktop")
+    elif path.lower() == "q":
+        options()
     # if path exists, use it
     if not config.has_section(section="Path"):
         config.add_section("Path")
@@ -231,6 +248,7 @@ def setPath():
         setPath()
     with open("config.ini", "w") as f:
         config.write(f)
+    options()
 
 
 def getInput() -> str:
