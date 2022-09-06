@@ -149,7 +149,6 @@ def options():
                 input("Press Enter to continue: ")
             else:
                 print(red("No path set"))
-            sleep(2)
         elif option.lower() == "c":
             check_update()
         elif option.lower() == "r":
