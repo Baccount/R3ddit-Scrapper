@@ -224,7 +224,7 @@ def setPath():
                 config.write(f)
         print(green("Path has been reset"))
         input("Press Enter to continue: ")
-        options()
+        return
     elif path == "1":
         # set download path to download folder
         path = os.path.join(os.path.expanduser("~"), "Downloads")
@@ -235,7 +235,7 @@ def setPath():
         # set download path to desktop folder
         path = os.path.join(os.path.expanduser("~"), "Desktop")
     elif path.lower() == "q":
-        options()
+        return
     # if path exists, use it
     if not config.has_section(section="Path"):
         config.add_section("Path")
@@ -246,7 +246,7 @@ def setPath():
         setPath()
     with open("config.ini", "w") as f:
         config.write(f)
-    options()
+    return
 
 
 def getInput() -> str:
