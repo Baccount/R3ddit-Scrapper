@@ -254,6 +254,7 @@ def savePath(path):
     # check if path exists
     if not os.path.exists(config["Path"]["path"]):
         print(red("Path does not exist"))
+        # call setPath again
         setPath()
     with open("config.ini", "w") as f:
         config.write(f)
