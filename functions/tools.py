@@ -2,7 +2,6 @@ import argparse as ap
 import configparser
 import os
 import sys
-from time import sleep
 
 import praw
 from prawcore.exceptions import ResponseException
