@@ -218,12 +218,7 @@ def setPath():
     path = input("Enter the path to download to: ")
     """Set the path to download to"""
     if path.lower() == "r":
-        if config.has_section("Path"):
-            config.remove_section("Path")
-            with open("config.ini", "w") as f:
-                config.write(f)
-        print(green("Path has been reset"))
-        input("Press Enter to continue: ")
+        resetPath()
         return
     elif path == "1":
         # set download path to download folder
@@ -236,6 +231,23 @@ def setPath():
         path = os.path.join(os.path.expanduser("~"), "Desktop")
     elif path.lower() == "q":
         return
+    savePath(path)
+    return
+
+def resetPath():
+    """Reset the path to download to"""
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if config.has_section("Path"):
+        config.remove_section("Path")
+        with open("config.ini", "w") as f:
+            config.write(f)
+        print(green("Path has been reset"))
+        input("Press Enter to continue: ")
+
+def savePath(path):
+    config = configparser.ConfigParser()
+    config.read("config.ini")
     # if path exists, use it
     if not config.has_section(section="Path"):
         config.add_section("Path")
@@ -246,8 +258,6 @@ def setPath():
         setPath()
     with open("config.ini", "w") as f:
         config.write(f)
-    return
-
 
 def getInput() -> str:
     sub, limit, order = "", 0, "hot"
