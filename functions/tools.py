@@ -162,14 +162,13 @@ def reset():
     """
     Reset all settings
     """
-    from main import main
-
-    try:
-        os.remove("config.ini")
-        print(green("Settings reset"))
-        main(skip=False)
-    except FileNotFoundError:
-        print(red("Could not reset settings"))
+    choice = input("Are you sure you want to reset all settings? (y/n): ")
+    if choice.lower() == "y":
+        try:
+            os.remove("config.ini")
+            print(green("Settings reset"))
+        except FileNotFoundError:
+            print(red("Could not reset settings"))
 
 
 def verifyReddit(client_id, client_secret) -> bool:
