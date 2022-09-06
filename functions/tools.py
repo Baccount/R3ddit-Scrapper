@@ -211,9 +211,9 @@ def setPath():
     config = configparser.ConfigParser()
     config.read("config.ini")
     print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n")))
-    print("D: Downloads")
-    print("DO: Documents")
-    print("DT: Desktop")
+    print("1: Downloads")
+    print("2: Documents")
+    print("3: Desktop")
     print("Q: Quit")
     path = input("Enter the path to download to: ")
     """Set the path to download to"""
@@ -225,13 +225,13 @@ def setPath():
         print(green("Path has been reset"))
         input("Press Enter to continue: ")
         options()
-    elif path.lower() == "d":
+    elif path == "1":
         # set download path to download folder
         path = os.path.join(os.path.expanduser("~"), "Downloads")
-    elif path.lower() == "do":
+    elif path == "2":
         # set download path to documents folder
         path = os.path.join(os.path.expanduser("~"), "Documents")
-    elif path.lower() == "dt":
+    elif path == "3":
         # set download path to desktop folder
         path = os.path.join(os.path.expanduser("~"), "Desktop")
     elif path.lower() == "q":
