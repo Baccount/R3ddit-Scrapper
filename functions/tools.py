@@ -132,31 +132,30 @@ def check_update(testing=False) -> bool:
 
 def options():
     from main import VERSION, main
-
-    clear_screen()
-    # print the options
-    print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
-    option = input(
-        "S: Set path\nV: View current path \nC: Check for updates\nR: Reset All Settings\nQ: Quit\n: "
-    )
-    if option.lower() == "s":
-        setPath()
-    elif option.lower() == "v":
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        if config.has_section("Path"):
-            print(green(config["Path"]["path"]))
-            input("Press Enter to continue: ")
-            options()
-        else:
-            print(red("No path set"))
-        sleep(2)
-    elif option.lower() == "c":
-        check_update()
-    elif option.lower() == "r":
-        reset()
-    elif option.lower() == "q":
-        main(skip=True)
+    while True:
+        clear_screen()
+        # print the options
+        print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
+        option = input(
+            "S: Set path\nV: View current path \nC: Check for updates\nR: Reset All Settings\nQ: Quit\n: "
+        )
+        if option.lower() == "s":
+            setPath()
+        elif option.lower() == "v":
+            config = configparser.ConfigParser()
+            config.read("config.ini")
+            if config.has_section("Path"):
+                print(green(config["Path"]["path"]))
+                input("Press Enter to continue: ")
+            else:
+                print(red("No path set"))
+            sleep(2)
+        elif option.lower() == "c":
+            check_update()
+        elif option.lower() == "r":
+            reset()
+        elif option.lower() == "q":
+            break
     main(skip=True)
 
 
