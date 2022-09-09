@@ -168,6 +168,8 @@ def nsfw():
     config.read("config.ini")
     if not config.has_section(section="NSFW"):
         config.add_section("NSFW")
+    else:
+        print("NSFW is currently: " + green(config.get("NSFW", "nsfw")))
     choice = input("NSFW (y/n): ")
     if choice.lower() == "y":
         config.set("NSFW", "nsfw", "True")
