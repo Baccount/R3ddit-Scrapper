@@ -10,8 +10,8 @@ def main(skip=False):
         create_config()
         argument()
     showSplash()
-    sub, limit, order = getInput()
-    R3dditScrapper(sub, limit, order).start()
+    sub, limit, order, nsfw = getInput()
+    R3dditScrapper(sub, limit, order, nsfw=nsfw).start()
 
 
 if __name__ == "__main__":

@@ -285,7 +285,12 @@ def savePath(path):
         config.write(f)
 
 def getInput() -> str:
-    sub, limit, order = "", 0, "hot"
+    sub, limit, order, nsfw = "", 0, "hot", "True"
+    # read config file
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if config.has_section("NSFW"):
+        nsfw = config.get("NSFW", "nsfw")
     sub = input(
         "Enter subreddit "
         + " " * 20
@@ -310,4 +315,4 @@ def getInput() -> str:
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    return sub, limit, order
+    return sub, limit, order, nsfw
