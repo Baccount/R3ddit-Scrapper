@@ -136,7 +136,7 @@ def options():
         # print the options
         print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
         option = input(
-            "S: Set path\nV: View current path \nC: Check for updates\nR: Reset All Settings\nQ: Quit\n: "
+            "S: Set path\nV: View current path \nC: Check for updates\nN: NSFW\nR: Reset All Settings\nQ: Quit\n: "
         )
         if option.lower() == "s":
             setPath()
@@ -152,10 +152,36 @@ def options():
             check_update()
         elif option.lower() == "r":
             reset()
+        elif option.lower() == "n":
+            nsfw()
         elif option.lower() == "q":
             break
     main(skip=True)
 
+def nsfw():
+    """_summary_
+    Enable or disable NSFW images
+    NSFW is enabled by default
+    """
+    clear_screen()
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if not config.has_section(section="NSFW"):
+        config.add_section("NSFW")
+    choice = input("NSFW (y/n): ")
+    if choice.lower() == "y":
+        config.set("NSFW", "nsfw", "True")
+        clear_screen()
+        print(green("NSFW Enabled"))
+    elif choice.lower() == "n":
+        config.set("NSFW", "nsfw", "False")
+        clear_screen()
+        print(green(green("NSFW Disabled")))
+    # save the config
+    with open("config.ini", "w") as f:
+        config.write(f)
+    input("Press Enter to continue: ")
+    return
 
 def reset():
     """
