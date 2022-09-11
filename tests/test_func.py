@@ -57,3 +57,17 @@ def test_download():
     )
     assert os.path.isfile("test.jpg") is True
     os.remove("test.jpg")
+
+
+def test_nsfw():
+    """
+    Test nsfw function
+    """
+    scrapper = R3dditScrapper(
+        sub="pics", limit=1, order="hot", nsfw="True", argument=False, path=None
+    )
+    assert scrapper.nsfw is True
+    scrapper = R3dditScrapper(
+        sub="pics", limit=1, order="hot", nsfw="False", argument=False, path=None
+    )
+    assert scrapper.nsfw is False
