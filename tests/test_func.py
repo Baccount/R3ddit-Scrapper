@@ -4,10 +4,10 @@ from configparser import ConfigParser
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 # trunk-ignore(flake8/E402)
-from functions.tools import check_update
+from classes.main_class import R3dditScrapper
 
 # trunk-ignore(flake8/E402)
-from classes.main_class import R3dditScrapper
+from functions.tools import check_update, getInput
 
 
 def test_check_update():

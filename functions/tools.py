@@ -131,6 +131,7 @@ def check_update(testing=False) -> bool:
 
 def options():
     from main import VERSION, main
+
     while True:
         clear_screen()
         # print the options
@@ -158,6 +159,7 @@ def options():
             break
     main(skip=True)
 
+
 def nsfw():
     """_summary_
     Enable or disable NSFW images
@@ -184,6 +186,7 @@ def nsfw():
         config.write(f)
     input("Press Enter to continue: ")
     return
+
 
 def reset():
     """
@@ -236,7 +239,9 @@ def setPath():
     clear_screen()
     config = configparser.ConfigParser()
     config.read("config.ini")
-    print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n")))
+    print(
+        blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n"))
+    )
     print("1: Downloads")
     print("2: Documents")
     print("3: Desktop")
@@ -260,6 +265,7 @@ def setPath():
     savePath(path)
     return
 
+
 def resetPath():
     """Reset the path to download to"""
     config = configparser.ConfigParser()
@@ -270,6 +276,7 @@ def resetPath():
             config.write(f)
         print(green("Path has been reset"))
         input("Press Enter to continue: ")
+
 
 def savePath(path):
     config = configparser.ConfigParser()
@@ -285,6 +292,7 @@ def savePath(path):
         setPath()
     with open("config.ini", "w") as f:
         config.write(f)
+
 
 def getInput() -> str:
     sub, limit, order, nsfw = "", 0, "hot", "True"
