@@ -131,12 +131,13 @@ def check_update(testing=False) -> bool:
 
 def options():
     from main import VERSION, main
+
     while True:
         clear_screen()
         # print the options
         print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
         option = input(
-            "S: Set path\nV: View current path \nC: Check for updates\nR: Reset All Settings\nQ: Quit\n: "
+            "S: Set path\nV: View current path \nC: Check for updates\nN: NSFW\nR: Reset All Settings\nQ: Quit\n: "
         )
         if option.lower() == "s":
             setPath()
@@ -152,9 +153,39 @@ def options():
             check_update()
         elif option.lower() == "r":
             reset()
+        elif option.lower() == "n":
+            nsfw()
         elif option.lower() == "q":
             break
     main(skip=True)
+
+
+def nsfw():
+    """_summary_
+    Enable or disable NSFW images
+    NSFW is enabled by default
+    """
+    clear_screen()
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if not config.has_section(section="NSFW"):
+        config.add_section("NSFW")
+    else:
+        print("NSFW is currently: " + green(config.get("NSFW", "nsfw")))
+    choice = input("NSFW (y/n): ")
+    if choice.lower() == "y":
+        config.set("NSFW", "nsfw", "True")
+        clear_screen()
+        print(green("NSFW Enabled"))
+    elif choice.lower() == "n":
+        config.set("NSFW", "nsfw", "False")
+        clear_screen()
+        print(green(green("NSFW Disabled")))
+    # save the config
+    with open("config.ini", "w") as f:
+        config.write(f)
+    input("Press Enter to continue: ")
+    return
 
 
 def reset():
@@ -208,7 +239,9 @@ def setPath():
     clear_screen()
     config = configparser.ConfigParser()
     config.read("config.ini")
-    print(blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n")))
+    print(
+        blue("Enter the path you want to save to" + 20 * " " + red("R: Reset path\n"))
+    )
     print("1: Downloads")
     print("2: Documents")
     print("3: Desktop")
@@ -232,6 +265,7 @@ def setPath():
     savePath(path)
     return
 
+
 def resetPath():
     """Reset the path to download to"""
     config = configparser.ConfigParser()
@@ -242,6 +276,7 @@ def resetPath():
             config.write(f)
         print(green("Path has been reset"))
         input("Press Enter to continue: ")
+
 
 def savePath(path):
     config = configparser.ConfigParser()
@@ -258,8 +293,14 @@ def savePath(path):
     with open("config.ini", "w") as f:
         config.write(f)
 
+
 def getInput() -> str:
-    sub, limit, order = "", 0, "hot"
+    sub, limit, order, nsfw = "", 0, "hot", "True"
+    # read config file
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if config.has_section("NSFW"):
+        nsfw = config.get("NSFW", "nsfw")
     sub = input(
         "Enter subreddit "
         + " " * 20
@@ -284,4 +325,4 @@ def getInput() -> str:
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    return sub, limit, order
+    return sub, limit, order, nsfw
