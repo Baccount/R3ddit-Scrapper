@@ -7,7 +7,7 @@ sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from classes.main_class import R3dditScrapper
 
 # trunk-ignore(flake8/E402)
-from functions.tools import check_update, getInput
+from functions.tools import check_update
 
 
 def test_check_update():
