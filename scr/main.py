@@ -1,6 +1,6 @@
 from classes.main_class import R3dditScrapper
-from functions import argument, create_config, getInput, showSplash
-
+from functions import create_config, getInput, showSplash
+from arguments.arguments import argument
 VERSION = "0.2"
 
 
