@@ -1,7 +1,8 @@
 import argparse as ap
 import sys
 
-def argument():
+
+def argument(sub=None, limit=None, order=None, nsfw=None, path=None):
     """
     Parsing the arguments passed by the user.
     optional arguments:

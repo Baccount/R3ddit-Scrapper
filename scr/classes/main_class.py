@@ -5,7 +5,6 @@ import re
 
 import praw
 import requests
-
 from functions.tools import blue, green, red
 
 

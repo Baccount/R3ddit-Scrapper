@@ -45,7 +45,6 @@ def showSplash():
     print(blue(f.renderText(title)))
 
 
-
 def check_update(testing=False) -> bool:
     # download latest version asynchronously
     """
@@ -54,7 +53,6 @@ def check_update(testing=False) -> bool:
     # download async the version file
     try:
         import requests
-
         from main import VERSION
 
         r = requests.get(
