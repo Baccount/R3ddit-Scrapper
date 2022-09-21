@@ -3,7 +3,6 @@ import sys
 from configparser import ConfigParser
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
-from arguments.arguments import argument
 
 # trunk-ignore(flake8/E402)
 from classes import R3dditScrapper
