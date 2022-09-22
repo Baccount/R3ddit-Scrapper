@@ -3,8 +3,9 @@ import sys
 from configparser import ConfigParser
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
+
 # trunk-ignore(flake8/E402)
-from classes.main_class import R3dditScrapper
+from classes import R3dditScrapper
 
 # trunk-ignore(flake8/E402)
 from functions.tools import check_update
