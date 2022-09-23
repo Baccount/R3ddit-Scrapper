@@ -1,13 +1,4 @@
-WIP
 
-
-Parsing the arguments passed by the user.
-optional arguments:
--s --sub: The subreddit you want to download from
--l --limit: number of images to download
--o --order: hot, top, new
--n --nsfw: False = NO NSFW images
--p --path: The path you want to save to
 
 <div id="top"></div>
 <!--
@@ -16,13 +7,13 @@ optional arguments:
 <br />
 <div align="center">
   <a href="https://github.com/Baccount/Reddit_Downloader/tree/master">
-    <img src="screenshots/app.png" alt="Logo" width="80" height="80">
+    <img src="images/main-app.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">R3ddit Scrapper</h3>
 
   <p align="center">
-     Download Yo0Tube videos and use them as animated wallpaper on macOS
+     Download images from Reddit in bulk with ease!
     <br />
     <a href="https://github.com/Baccount/Reddit_Downloader/tree/master"><strong>Explore the docs »</strong></a>
     <br />
@@ -57,7 +48,7 @@ optional arguments:
 
 ## About The Project
 
-![Alt text](screenshots/app.png?raw=true "Optional Title")
+![Alt text](images/main-app.png?raw=true "Optional Title")
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -70,13 +61,13 @@ First install the following:
 - Step 1
 
   ```sh
-  git clone https://github.com/Baccount/Reddit_Downloader/tree/master.git
+  git clone https://github.com/Baccount/Reddit_Downloader.git
   ```
 
 - Step 2
 
   ```sh
-  cd Y0utube_Wallpaper/
+  cd Reddit_Downloader/
   ```
 
 - Step 3
@@ -91,9 +82,14 @@ First install the following:
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+## Parsing the arguments passed by the user.
+Optional arguments:\
+-s --sub: The subreddit you want to download from\
+-l --limit: number of images to download\
+-o --order: hot, top, new\
+-n --nsfw: False = NO NSFW images\
+-p --path: The path you want to save to
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -136,7 +132,7 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 ## Acknowledgments
 
-- [youtube-dl](https://youtube-dl.org/)
+- [praw](https://praw.readthedocs.io/en/stable/index.html)
 - [pyfiglet](https://github.com/pwaller/pyfiglet)
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
