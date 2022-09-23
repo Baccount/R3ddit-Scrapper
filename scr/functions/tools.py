@@ -192,7 +192,7 @@ def setPath():
     print("1: Downloads")
     print("2: Documents")
     print("3: Desktop")
-    print("Q: Quit")
+    print("B: Back")
     path = input("Enter the path to download to: ")
     """Set the path to download to"""
     if path.lower() == "r":
@@ -207,7 +207,7 @@ def setPath():
     elif path == "3":
         # set download path to desktop folder
         path = os.path.join(os.path.expanduser("~"), "Desktop")
-    elif path.lower() == "q":
+    elif path.lower() == "b":
         return
     savePath(path)
     return
