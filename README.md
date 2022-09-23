@@ -13,7 +13,7 @@
   <p align="center">
      Download images from Reddit in bulk with ease!
     <br />
-    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Baccount/Reddit_Downloader#usage"><strong>Explore the docs »</strong></a>
     <br />
     ·
     <a href="https://github.com/Baccount/Reddit_Downloader/issues/new">Report Bug</a>
