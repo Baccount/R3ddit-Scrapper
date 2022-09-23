@@ -6,8 +6,6 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Baccount/Reddit_Downloader/tree/master">
-    <img src="images/main-app.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">R3ddit Scrapper</h3>
@@ -88,8 +86,11 @@ Optional arguments:\
 -l --limit: number of images to download\
 -o --order: hot, top, new\
 -n --nsfw: False = NO NSFW images\
--p --path: The path you want to save to
-
+-p --path: The path you want to save to\
+Example:
+```
+python3 main.py --sub wallpapers --limit 10 --order hot --nsfw False --path /Users/'YOUR USERNAME'/Downloads
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
