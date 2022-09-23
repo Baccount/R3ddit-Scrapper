@@ -1,13 +1,4 @@
-WIP
 
-
-Parsing the arguments passed by the user.
-optional arguments:
--s --sub: The subreddit you want to download from
--l --limit: number of images to download
--o --order: hot, top, new
--n --nsfw: False = NO NSFW images
--p --path: The path you want to save to
 
 <div id="top"></div>
 <!--
@@ -15,23 +6,19 @@ optional arguments:
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Baccount/Y0utube_Wallpaper">
-    <img src="screenshots/app.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Y0uTube Wallpaper</h3>
+<h3 align="center">R3ddit Scrapper</h3>
 
   <p align="center">
-     Download Yo0Tube videos and use them as animated wallpaper on macOS
+     Download images from Reddit in bulk with ease!
     <br />
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Baccount/Reddit_Downloader#usage"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper">View Demo</a>
     ·
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper/issues">Report Bug</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/issues/new">Report Bug</a>
     ·
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper/issues">Request Feature</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/issues/new">Request Feature</a>
   </p>
 </div>
 
@@ -57,7 +44,7 @@ optional arguments:
 
 ## About The Project
 
-![Alt text](screenshots/app.png?raw=true "Optional Title")
+![Alt text](images/main-app.png?raw=true "Optional Title")
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -70,13 +57,13 @@ First install the following:
 - Step 1
 
   ```sh
-  git clone https://github.com/Baccount/Y0utube_Wallpaper.git
+  git clone https://github.com/Baccount/Reddit_Downloader.git
   ```
 
 - Step 2
 
   ```sh
-  cd Y0utube_Wallpaper/
+  cd Reddit_Downloader/
   ```
 
 - Step 3
@@ -91,9 +78,17 @@ First install the following:
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+## Parsing the arguments passed by the user.
+Optional arguments:\
+-s --sub: The subreddit you want to download from\
+-l --limit: number of images to download\
+-o --order: hot, top, new\
+-n --nsfw: False = NO NSFW images\
+-p --path: The path you want to save to\
+Example:
+```
+python3 main.py --sub wallpapers --limit 10 --order hot --nsfw False --path /Users/'YOUR USERNAME'/Downloads
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -136,7 +131,7 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 ## Acknowledgments
 
-- [youtube-dl](https://youtube-dl.org/)
+- [praw](https://praw.readthedocs.io/en/stable/index.html)
 - [pyfiglet](https://github.com/pwaller/pyfiglet)
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
