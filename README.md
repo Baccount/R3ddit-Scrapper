@@ -15,12 +15,10 @@
     <br />
     <a href="https://github.com/Baccount/Reddit_Downloader/tree/master"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master">View Demo</a>
     ·
-    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master/issues">Report Bug</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/issues/new">Report Bug</a>
     ·
-    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master/issues">Request Feature</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/issues/new">Request Feature</a>
   </p>
 </div>
 
