@@ -15,23 +15,23 @@ optional arguments:
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Baccount/Y0utube_Wallpaper">
+  <a href="https://github.com/Baccount/Reddit_Downloader/tree/master">
     <img src="screenshots/app.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Y0uTube Wallpaper</h3>
+<h3 align="center">R3ddit Scrapper</h3>
 
   <p align="center">
      Download Yo0Tube videos and use them as animated wallpaper on macOS
     <br />
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper">View Demo</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master">View Demo</a>
     ·
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper/issues">Report Bug</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Baccount/Y0utube_Wallpaper/issues">Request Feature</a>
+    <a href="https://github.com/Baccount/Reddit_Downloader/tree/master/issues">Request Feature</a>
   </p>
 </div>
 
@@ -70,7 +70,7 @@ First install the following:
 - Step 1
 
   ```sh
-  git clone https://github.com/Baccount/Y0utube_Wallpaper.git
+  git clone https://github.com/Baccount/Reddit_Downloader/tree/master.git
   ```
 
 - Step 2
