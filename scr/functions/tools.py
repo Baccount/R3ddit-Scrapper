@@ -84,7 +84,7 @@ def options():
         # print the options
         print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
         option = input(
-            "S: Set path\nV: View current save path \nC: Check for updates\nN: NSFW\nR: Reset All Settings\nB: Back\n: "
+            "S: Set path\nV: View current save path \nC: Check for updates\nN: NSFW\nA: View Account Credentials\nR: Reset All Settings\nB: Back\n: "
         )
         if option.lower() == "s":
             setPath()
@@ -102,10 +102,14 @@ def options():
             reset()
         elif option.lower() == "n":
             nsfw()
+        elif option.lower() == "a":
+            accountCredentials()
         elif option.lower() == "b":
             break
     main(skip=True)
 
+def accountCredentials():
+    pass
 
 def nsfw():
     """_summary_
