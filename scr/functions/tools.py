@@ -109,7 +109,14 @@ def options():
     main(skip=True)
 
 def accountCredentials():
-    pass
+    """View the account credentials"""
+    clear_screen()
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if config.has_section("Reddit"):
+        print("Client ID: " + green(config["Reddit"]["client_id"]))
+        print("Client Secret: " + green(config["Reddit"]["client_secret"]))
+        input("Press Enter to continue: ")
 
 def nsfw():
     """_summary_
