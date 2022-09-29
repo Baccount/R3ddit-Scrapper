@@ -84,7 +84,7 @@ def options():
         # print the options
         print(blue(f"\nOptions:           {red('V. ')}{red(VERSION)}\n"))
         option = input(
-            "S: Set path\nV: View current save path \nC: Check for updates\nN: NSFW\nR: Reset All Settings\nB: Back\n: "
+            "S: Set path\nV: View current save path \nC: Check for updates\nN: NSFW\nA: View Account Credentials\nR: Reset All Settings\nB: Back\n: "
         )
         if option.lower() == "s":
             setPath()
@@ -102,10 +102,21 @@ def options():
             reset()
         elif option.lower() == "n":
             nsfw()
+        elif option.lower() == "a":
+            accountCredentials()
         elif option.lower() == "b":
             break
     main(skip=True)
 
+def accountCredentials():
+    """View the account credentials"""
+    clear_screen()
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    if config.has_section("Reddit"):
+        print("Client ID: " + green(config["Reddit"]["client_id"]))
+        print("Client Secret: " + green(config["Reddit"]["client_secret"]))
+        input("Press Enter to continue: ")
 
 def nsfw():
     """_summary_
