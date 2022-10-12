@@ -108,6 +108,7 @@ def options():
             break
     main(skip=True)
 
+
 def accountCredentials():
     """View the account credentials"""
     clear_screen()
@@ -117,6 +118,7 @@ def accountCredentials():
         print("Client ID: " + green(config["Reddit"]["client_id"]))
         print("Client Secret: " + green(config["Reddit"]["client_secret"]))
         input("Press Enter to continue: ")
+
 
 def nsfw():
     """_summary_
@@ -151,6 +153,7 @@ def reset():
     Reset all settings
     """
     from main import main
+
     choice = input("Are you sure you want to reset all settings? (y/n): ")
     if choice.lower() == "y":
         try:
