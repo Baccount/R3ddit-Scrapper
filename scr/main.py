@@ -13,7 +13,9 @@ def main(skip=False):
     while True:
         showSplash()
         choice = getInput()
-        R3dditScrapper(choice["sub"], choice["limit"], choice["order"], choice["nsfw"]).start()
+        R3dditScrapper(
+            choice["sub"], choice["limit"], choice["order"], choice["nsfw"]
+        ).start()
 
 
 if __name__ == "__main__":
