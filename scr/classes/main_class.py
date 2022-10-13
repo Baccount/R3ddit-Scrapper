@@ -55,6 +55,7 @@ class R3dditScrapper:
         )
 
     def download(self, image):
+        """Download the images"""
         try:
             r = requests.get(image["url"])
             with open(image["fname"], "wb") as f:
@@ -109,11 +110,13 @@ class R3dditScrapper:
             main(skip=True)
 
     def make_dir(self, images):
+        """Make the directory to save the images to"""
         if len(images):
             if not os.path.exists(self.path):
                 os.makedirs(self.path)
 
     def start(self):
+        """Start the download, Main entry point"""
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.getImages())
