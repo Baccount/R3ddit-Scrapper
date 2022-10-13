@@ -77,6 +77,7 @@ def check_update(testing=False) -> bool:
 
 
 def options():
+    """Show the options screen"""
     from main import VERSION, main
 
     while True:
@@ -202,6 +203,7 @@ def create_config():
 
 
 def setPath():
+    """Set the path to save the images"""
     clear_screen()
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -245,6 +247,7 @@ def resetPath():
 
 
 def savePath(path):
+    """Save the path to download to"""
     config = configparser.ConfigParser()
     config.read("config.ini")
     # if path exists, use it
@@ -261,6 +264,7 @@ def savePath(path):
 
 
 def getInput():
+    """Get the input from the user"""
     sub, limit, order, nsfw = "", 0, "hot", "True"
     # read config file
     config = configparser.ConfigParser()
