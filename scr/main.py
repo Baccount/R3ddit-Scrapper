@@ -10,9 +10,10 @@ def main(skip=False):
     if not skip:
         create_config()
         argument()
-    showSplash()
-    sub, limit, order, nsfw = getInput()
-    R3dditScrapper(sub, limit, order, nsfw=nsfw).start()
+    while True:
+        showSplash()
+        sub, limit, order, nsfw = getInput()
+        R3dditScrapper(sub, limit, order, nsfw=nsfw).start()
 
 
 if __name__ == "__main__":
