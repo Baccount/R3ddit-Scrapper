@@ -114,8 +114,6 @@ class R3dditScrapper:
                 os.makedirs(self.path)
 
     def start(self):
-        from main import main
-
         print(blue("Downloading images from r/" + self.sub))
         with futures.ThreadPoolExecutor() as executor:
             executor.map(self.download, self.getImages())
@@ -126,6 +124,3 @@ class R3dditScrapper:
         if self.argument:
             # exit after using terminal arguments
             exit(0)
-        else:
-            # restart the program if not using terminal arguments
-            main(skip=True)
