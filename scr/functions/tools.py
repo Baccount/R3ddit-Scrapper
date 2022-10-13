@@ -260,7 +260,7 @@ def savePath(path):
         config.write(f)
 
 
-def getInput() -> str:
+def getInput():
     sub, limit, order, nsfw = "", 0, "hot", "True"
     # read config file
     config = configparser.ConfigParser()
@@ -291,4 +291,5 @@ def getInput() -> str:
     if order.lower() not in ["hot", "top", "new"]:
         print(red("Defaulting to hot"))
         order = "hot"
-    return sub, limit, order, nsfw
+    dict = {"sub": sub, "limit": limit, "order": order, "nsfw": nsfw}
+    return dict
