@@ -130,6 +130,7 @@ def nsfw():
     config = configparser.ConfigParser()
     config.read("config.ini")
     if not config.has_section(section="NSFW"):
+        print(f"NSFW is currently: {green('Not Set')}")
         config.add_section("NSFW")
     else:
         print("NSFW is currently: " + green(config.get("NSFW", "nsfw")))
